@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Harmora Marketplace</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0d0d0d;
+      color: white;
+      text-align: center;
+    }
+
+    header {
+      padding: 30px;
+      font-size: 28px;
+      font-weight: bold;
+      background: #111;
+    }
+
+    .container {
+      margin-top: 50px;
+    }
+
+    .card {
+      background: #1c1c1c;
+      width: 300px;
+      margin: auto;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    .price {
+      font-size: 20px;
+      margin: 10px 0;
+    }
+
+    button {
+      padding: 12px 20px;
+      background: #00ff99;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 6px;
+      width: 100%;
+    }
+
+    button:hover {
+      background: #00cc77;
+    }
+
+    .status {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #aaa;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>🔥 Harmora Marketplace</header>
+
+<div class="container">
+
+  <div class="card">
+    <h2>Beat Pack 1</h2>
+    <div class="price">$10</div>
+
+    <button onclick="buy()">Buy Now</button>
+
+    <div class="status" id="status"></div>
+  </div>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
