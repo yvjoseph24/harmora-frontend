@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -8,225 +8,103 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial;
-  background: radial-gradient(circle at top, #0a0015, #000);
-  color: white;
+body { margin:0; font-family:Arial; background:#0a0015; color:white; }
+
+.layout { display:flex; }
+
+.sidebar {
+  width:220px;
+  height:100vh;
+  background:#000;
+  padding:15px;
 }
 
-/* NAV */
-.nav {
-  display: flex;
-  justify-content: space-between;
-  padding: 14px 20px;
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(10px);
-  position: sticky;
-  top: 0;
-}
-
-.logo {
-  color: #00f5ff;
-  font-weight: bold;
-  font-size: 20px;
-}
-
-.nav a {
-  margin-left: 12px;
-  color: #aaa;
-  text-decoration: none;
-  cursor: pointer;
-}
-.nav a:hover { color:#00f5ff; }
-
-/* HERO */
-.hero {
-  text-align: center;
-  padding: 50px 20px;
-}
-
-/* SECTIONS */
-.section {
-  padding: 35px 18px;
-}
-
-/* GRID */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 12px;
-}
+.main { flex:1; padding:20px; }
 
 .card {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(0,245,255,0.2);
-  border-radius: 12px;
-  padding: 12px;
+  background:rgba(255,255,255,0.05);
+  padding:10px;
+  margin:10px 0;
+  border-radius:10px;
+  border-left:3px solid #00f5ff;
 }
 
-/* MINI PANELS */
-.miniPanel {
-  max-width: 420px;
-  background: rgba(255,255,255,0.05);
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid rgba(0,245,255,0.2);
-}
-
-.miniPanel input {
-  width: 100%;
-  padding: 8px;
-  margin: 5px 0;
-  background: #111;
-  border: 1px solid #333;
-  color: white;
-}
-
-/* BUTTONS */
 button {
-  width: 100%;
-  padding: 8px;
-  margin-top: 8px;
-  border-radius: 8px;
-  border: none;
-  background: linear-gradient(90deg,#00f5ff,#b400ff);
-  font-weight: bold;
-  cursor: pointer;
+  width:100%;
+  padding:10px;
+  background:linear-gradient(90deg,#00f5ff,#b400ff);
+  border:none;
+  font-weight:bold;
+  cursor:pointer;
 }
 
-/* FEED */
-.feed {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+input {
+  width:100%;
+  padding:8px;
+  margin:5px 0;
+  background:#111;
+  border:1px solid #333;
+  color:white;
 }
 
-.feedCard {
-  background: rgba(255,255,255,0.05);
-  border-left: 3px solid #00f5ff;
-  padding: 12px;
-  border-radius: 10px;
-}
-
-/* PLAYER */
-#playerBar {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 42px;
-  background: rgba(10,0,25,0.95);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 10px;
-  border-top: 1px solid #00f5ff33;
-  font-size: 12px;
-}
-
-.playBtn {
-  width: auto;
-  padding: 5px 10px;
-  font-size: 12px;
-  border-radius: 20px;
-}
-
-#trackName {
-  flex: 1;
-  color: #00f5ff;
+#player {
+  position:fixed;
+  bottom:0;
+  left:220px;
+  right:0;
+  height:45px;
+  background:#000;
+  display:flex;
+  align-items:center;
+  padding:0 10px;
+  border-top:1px solid #00f5ff33;
 }
 </style>
 </head>
 
 <body>
 
-<!-- NAV -->
-<div class="nav">
-  <div class="logo">🎧 Harmora</div>
-  <div>
-    <a href="#feed">Explore</a>
-    <a href="#artists">Artists</a>
-    <a href="#upload">Upload</a>
-    <a href="#login">Login</a>
-  </div>
+<div class="layout">
+
+<div class="sidebar">
+<h3>🎧 Harmora</h3>
+<button onclick="loadSongs()">Explore</button>
+<button onclick="loadArtists()">Artists</button>
 </div>
 
-<!-- HERO -->
-<div class="hero">
-  <h1>Music. Nightlife. Culture.</h1>
+<div class="main">
+
+<h3>🌟 Artist Motivation</h3>
+<p>Build your sound. Upload music. Get paid directly.</p>
+
+<h3>🎤 Create Artist</h3>
+<input id="artistName" placeholder="Name">
+<input id="artistBio" placeholder="Bio">
+<button onclick="createArtist()">Create</button>
+
+<h3>🎧 Upload Song</h3>
+<input id="songTitle" placeholder="Title">
+<input id="songPrice" placeholder="Price">
+<input id="songFile" type="file">
+<button onclick="uploadSong()">Upload</button>
+
+<h3>🔥 Marketplace</h3>
+<div id="songs"></div>
+
+<h3>🎤 Artists</h3>
+<div id="artists"></div>
+
 </div>
 
-<!-- 🌟 MOTIVATION -->
-<section class="section">
-  <h2>🌟 Creator Energy</h2>
+</div>
 
-  <div class="grid">
-    <div class="card">
-      <h3>🔥 Motivation</h3>
-      <p>Drop music. Grow fast. Build your brand.</p>
-    </div>
-    <div class="card">
-      <h3>🎤 Concerts</h3>
-      <p>Upcoming shows coming soon</p>
-    </div>
-    <div class="card">
-      <h3>💸 Earn</h3>
-      <p>Turn every drop into income</p>
-    </div>
-  </div>
-</section>
-
-<!-- 🎤 ARTISTS -->
-<section id="artists" class="section">
-  <h2>🎤 Artists</h2>
-
-  <div class="miniPanel">
-    <input id="artistName" placeholder="Artist Name">
-    <input id="artistBio" placeholder="Bio">
-    <button onclick="createArtist()">Save Artist</button>
-  </div>
-
-  <div id="artistList" class="grid"></div>
-</section>
-
-<!-- 🎧 UPLOAD -->
-<section id="upload" class="section">
-  <h2>🎧 Upload</h2>
-
-  <div class="miniPanel">
-    <input id="songTitle" placeholder="Title">
-    <input id="songPrice" placeholder="Price">
-    <input id="songFile" type="file">
-    <button onclick="uploadSong()">Upload (Pending)</button>
-  </div>
-</section>
-
-<!-- 🛒 FEED -->
-<section id="feed" class="section">
-  <h2>🔥 Discover</h2>
-  <div id="songFeed" class="feed"></div>
-</section>
-
-<!-- 🔐 LOGIN -->
-<section id="login" class="section">
-  <h2>🔐 Login</h2>
-
-  <div class="miniPanel">
-    <input id="email" placeholder="Email">
-    <input id="password" type="password" placeholder="Password">
-
-    <button onclick="signup()">Sign Up</button>
-    <button onclick="login()">Login</button>
-  </div>
-</section>
-
-<!-- PLAYER -->
-<div id="playerBar">
-  <div id="trackName">No track</div>
-  <button class="playBtn" onclick="togglePlay()">▶</button>
-  <audio id="audio"></audio>
+<div id="player">
+<div id="trackName">No track</div>
+<button onclick="toggle()">▶</button>
+<audio id="audio"></audio>
 </div>
 
 <script src="app.js"></script>
+
 </body>
 </html>
