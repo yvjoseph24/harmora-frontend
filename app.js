@@ -11,7 +11,7 @@ const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 // =====================
 // AUTH
 // =====================
-async function signup() {
+document.getElementById("signupBtn").onclick = async () => {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
@@ -19,9 +19,9 @@ async function signup() {
 
   if (error) return alert(error.message);
   alert("Account created");
-}
+};
 
-async function login() {
+document.getElementById("loginBtn").onclick = async () => {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
@@ -32,26 +32,24 @@ async function login() {
 
   if (error) return alert(error.message);
   alert("Logged in");
-}
+};
 
 // =====================
-// UPLOAD SONG
+// UPLOAD
 // =====================
-async function uploadSong() {
+document.getElementById("uploadBtn").onclick = async () => {
   console.log("UPLOAD CLICKED");
 
+  const title = document.getElementById("songTitle").value;
+  const price = document.getElementById("songPrice").value;
   const file = document.getElementById("songFile").files[0];
 
-  if (!file) {
-    alert("No file selected");
-    return;
-  }
+  if (!file) return alert("No file selected");
 
   const { data: userData } = await supabase.auth.getUser();
 
   if (!userData.user) {
-    alert("NOT LOGGED IN");
-    return;
+    return alert("NOT LOGGED IN");
   }
 
   const fileName = `${Date.now()}-${file.name}`;
@@ -66,5 +64,22 @@ async function uploadSong() {
     return alert(uploadError.message);
   }
 
+  const { data: urlData } = supabase
+    .storage
+    .from("music")
+    .getPublicUrl(fileName);
+
+  const { error: dbError } = await supabase.from("songs").insert({
+    title,
+    price,
+    audio_url: urlData.publicUrl,
+    artist_id: userData.user.id
+  });
+
+  if (dbError) {
+    console.log(dbError);
+    return alert(dbError.message);
+  }
+
   alert("UPLOAD SUCCESS");
-}
+};
