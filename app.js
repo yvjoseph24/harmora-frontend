@@ -1,32 +1,27 @@
-async function buy() {
-  const status = document.getElementById("status");
-  status.innerText = "Redirecting to checkout...";
-
+async function buy(name, price) {
   try {
-    const res = await fetch("https://harmora-backend.onrender.com/create-checkout-session", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        product: {
-          name: "Beat Pack 1",
-          price: 10
-        }
-      })
-    });
+    const response = await fetch(
+      "https://harmora-backend.onrender.com/create-checkout-session",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          product: { name, price },
+        }),
+      }
+    );
 
-    const data = await res.json();
+    const data = await response.json();
 
-    if (!data.url) {
-      status.innerText = "Error: No checkout link returned.";
-      return;
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      alert("Error creating checkout session.");
     }
-
-    window.location.href = data.url;
-
-  } catch (err) {
-    console.error(err);
-    status.innerText = "Error connecting to server.";
+  } catch (error) {
+    console.error("Connection error:", error);
+    alert("Error connecting to server.");
   }
 }
