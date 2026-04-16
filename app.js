@@ -1,7 +1,7 @@
 console.log("APP LOADED");
 
 // =====================
-// 1. SUPABASE INIT
+// SUPABASE INIT (ONLY ONCE)
 // =====================
 const supabaseUrl = "YOUR_SUPABASE_URL";
 const supabaseKey = "YOUR_SUPABASE_ANON_KEY";
@@ -9,7 +9,7 @@ const supabaseKey = "YOUR_SUPABASE_ANON_KEY";
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 // =====================
-// 2. AUTH
+// AUTH
 // =====================
 async function signup() {
   const email = document.getElementById("email").value;
@@ -35,7 +35,7 @@ async function login() {
 }
 
 // =====================
-// 3. UPLOAD SONG
+// UPLOAD SONG
 // =====================
 async function uploadSong() {
   console.log("UPLOAD CLICKED");
@@ -54,8 +54,8 @@ async function uploadSong() {
 
   const fileName = `${Date.now()}-${file.name}`;
 
-  // Upload file
-  const { error: uploadError } = await supabase.storage
+  const { error: uploadError } = await supabase
+    .storage
     .from("music")
     .upload(fileName, file);
 
@@ -64,18 +64,19 @@ async function uploadSong() {
     return alert(uploadError.message);
   }
 
-  // Get URL
-  const { data: urlData } = supabase.storage
+  const { data: urlData } = supabase
+    .storage
     .from("music")
     .getPublicUrl(fileName);
 
-  // Insert DB
-  const { error: dbError } = await supabase.from("songs").insert({
-    title,
-    price,
-    audio_url: urlData.publicUrl,
-    artist_id: userData.user.id
-  });
+  const { error: dbError } = await supabase
+    .from("songs")
+    .insert({
+      title,
+      price,
+      audio_url: urlData.publicUrl,
+      artist_id: userData.user.id
+    });
 
   if (dbError) {
     console.log(dbError);
@@ -87,10 +88,10 @@ async function uploadSong() {
 }
 
 // =====================
-// 4. LOAD SONGS FEED
+// LOAD SONGS
 // =====================
 async function loadSongs() {
-  const container = document.getElementById("songFeed");
+  const feed = document.getElementById("songFeed");
 
   const { data, error } = await supabase
     .from("songs")
@@ -99,13 +100,13 @@ async function loadSongs() {
 
   if (error) {
     console.log(error);
-    container.innerHTML = "<p>Error loading songs</p>";
+    feed.innerHTML = "Error loading songs";
     return;
   }
 
-  container.innerHTML = data.map(song => `
-    <div>
-      <h4>${song.title}</h4>
+  feed.innerHTML = data.map(song => `
+    <div class="card">
+      <h3>${song.title}</h3>
       <p>$${song.price}</p>
       <audio controls src="${song.audio_url}"></audio>
     </div>
@@ -113,11 +114,11 @@ async function loadSongs() {
 }
 
 // =====================
-// 5. BUTTON CONNECTIONS
+// BUTTON CONNECTIONS (NO onclick BUGS)
 // =====================
 document.getElementById("signupBtn").onclick = signup;
 document.getElementById("loginBtn").onclick = login;
 document.getElementById("uploadBtn").onclick = uploadSong;
 
-// Load feed on start
+// INIT
 loadSongs();
