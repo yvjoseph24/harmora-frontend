@@ -1,18 +1,42 @@
 console.log("APP LOADED");
 
+// =====================
+// SUPABASE INIT (ONLY ONCE)
+// =====================
 const supabaseUrl = "YOUR_SUPABASE_URL";
 const supabaseKey = "YOUR_SUPABASE_ANON_KEY";
 
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-// AUTH CHECK
-async function checkUser() {
-  const { data, error } = await supabase.auth.getUser();
-  console.log("USER CHECK:", data, error);
-  return data.user;
+// =====================
+// AUTH
+// =====================
+async function signup() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  const { error } = await supabase.auth.signUp({ email, password });
+
+  if (error) return alert(error.message);
+  alert("Account created");
 }
 
-// UPLOAD TEST
+async function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) return alert(error.message);
+  alert("Logged in");
+}
+
+// =====================
+// UPLOAD SONG
+// =====================
 async function uploadSong() {
   console.log("UPLOAD CLICKED");
 
@@ -23,30 +47,24 @@ async function uploadSong() {
     return;
   }
 
-  const user = await checkUser();
+  const { data: userData } = await supabase.auth.getUser();
 
-  if (!user) {
+  if (!userData.user) {
     alert("NOT LOGGED IN");
     return;
   }
 
-  console.log("USER OK:", user.id);
-  console.log("STARTING STORAGE UPLOAD...");
-
   const fileName = `${Date.now()}-${file.name}`;
 
-  const { data, error } = await supabase
+  const { error: uploadError } = await supabase
     .storage
     .from("music")
     .upload(fileName, file);
 
-  console.log("UPLOAD DATA:", data);
-  console.log("UPLOAD ERROR:", error);
-
-  if (error) {
-    alert(error.message);
-    return;
+  if (uploadError) {
+    console.log(uploadError);
+    return alert(uploadError.message);
   }
 
-  alert("UPLOAD WORKED");
+  alert("UPLOAD SUCCESS");
 }
