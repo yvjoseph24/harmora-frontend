@@ -1,3 +1,10 @@
+console.log("APP LOADED");
+
+const supabaseUrl = "YOUR_SUPABASE_URL";
+const supabaseKey = "YOUR_SUPABASE_ANON_KEY";
+
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
 async function uploadSong() {
   const title = document.getElementById("songTitle").value;
   const price = document.getElementById("songPrice").value;
@@ -59,4 +66,27 @@ async function uploadSong() {
   }
 
   alert("UPLOAD SUCCESS");
+}
+
+async function signup() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  const { error } = await supabase.auth.signUp({ email, password });
+
+  if (error) return alert(error.message);
+  alert("Account created");
+}
+
+async function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) return alert(error.message);
+  alert("Logged in");
 }
