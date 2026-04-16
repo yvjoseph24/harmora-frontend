@@ -1,0 +1,10 @@
+async function buySong(songId){
+  const res = await fetch("https://YOUR-BACKEND.onrender.com/pay",{
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body:JSON.stringify({ songId })
+  });
+
+  const data = await res.json();
+  window.location.href = data.url;
+}
