@@ -1,97 +1,61 @@
-const supabase = window.supabase.createClient(
-  "YOUR_SUPABASE_URL",
-  "YOUR_SUPABASE_ANON_KEY"
-);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Harmora</title>
 
-// AUTH SAFE CHECK
-async function getUserSafe(){
-  const { data:{ user } } = await supabase.auth.getUser();
-  if(!user) throw new Error("Not logged in");
-  return user;
-}
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-// ARTIST
-async function createArtist(){
-  const user = await getUserSafe();
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
 
-  await supabase.from("artists").insert({
-    user_id:user.id,
-    artist_name:artistName.value,
-    bio:artistBio.value
-  });
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
 
-  loadArtists();
-}
+<div class="layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2 class="logo">🎧 Harmora</h2>
+    <nav>
+      <button onclick="loadSongs()">Explore</button>
+      <button onclick="loadArtists()">Artists</button>
+    </nav>
+  </aside>
 
-// UPLOAD
-async function uploadSong(){
-  const user = await getUserSafe();
+  <!-- Main Content -->
+  <main class="main">
+    <section class="hero">
+      <h1>Discover New Music</h1>
+      <p>Empowering artists and connecting fans.</p>
+    </section>
 
-  const fileName = Date.now()+songFile.files[0].name;
+    <h2 class="section-title">Trending Tracks</h2>
+    <div id="songs" class="grid"></div>
 
-  await supabase.storage.from("music").upload(fileName, songFile.files[0]);
+    <h2 class="section-title">Featured Artists</h2>
+    <div id="artists" class="grid"></div>
+  </main>
+</div>
 
-  const { data } = supabase.storage.from("music").getPublicUrl(fileName);
+<!-- Player -->
+<div id="player">
+  <span id="trackName">No track playing</span>
+  <div class="player-controls">
+    <button onclick="togglePlay()">Play/Pause</button>
+  </div>
+  <audio id="audio"></audio>
+</div>
 
-  await supabase.from("songs").insert({
-    artist_id:user.id,
-    title:songTitle.value,
-    price:Number(songPrice.value),
-    audio_url:data.publicUrl
-  });
+<!-- JavaScript Files -->
+<script src="js/supabase.js"></script>
+<script src="js/player.js"></script>
+<script src="js/songs.js"></script>
+<script src="js/artists.js"></script>
+<script src="js/app.js"></script>
 
-  loadSongs();
-}
-
-// LOAD SONGS
-async function loadSongs(){
-  const { data } = await supabase.from("songs").select("*");
-
-  songs.innerHTML = data.map(s => `
-    <div class="card">
-      <h3>${s.title}</h3>
-      <p>$${s.price}</p>
-      <button onclick="play('${s.audio_url}','${s.title}')">Play</button>
-      <button onclick="buy('${s.title}',${s.price},'${s.id}')">Buy</button>
-    </div>
-  `).join("");
-}
-
-// LOAD ARTISTS
-async function loadArtists(){
-  const { data } = await supabase.from("artists").select("*");
-
-  artists.innerHTML = data.map(a => `
-    <div class="card">
-      <h3>${a.artist_name}</h3>
-      <p>${a.bio}</p>
-    </div>
-  `).join("");
-}
-
-// PLAYER
-function play(url,name){
-  audio.src=url;
-  audio.play();
-  trackName.innerText=name;
-}
-
-function toggle(){
-  audio.paused ? audio.play() : audio.pause();
-}
-
-// STRIPE CALL (BACKEND ONLY TRUSTED)
-async function buy(name,price,id){
-  const res = await fetch("https://YOUR-BACKEND.onrender.com/pay",{
-    method:"POST",
-    headers:{ "Content-Type":"application/json" },
-    body:JSON.stringify({ songId:id })
-  });
-
-  const data = await res.json();
-  window.location.href = data.url;
-}
-
-// INIT
-loadSongs();
-loadArtists();
+</body>
+</html>
