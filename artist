@@ -25,3 +25,27 @@ document.addEventListener("DOMContentLoaded", () => {
   loadSongs();
   loadArtists();
 });
+async function loadArtists() {
+  const container = document.getElementById("artists");
+  if (!container) return;
+
+  const { data, error } = await supabase.from("artists").select("*");
+
+  if (error) {
+    console.error(error);
+    container.innerHTML = "<p>Error loading artists.</p>";
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    container.innerHTML = "<p>No artists yet.</p>";
+    return;
+  }
+
+  container.innerHTML = data.map(artist => `
+    <div class="card">
+      <h4>${artist.artist_name}</h4>
+      <p>${artist.bio || ""}</p>
+    </div>
+  `).join("");
+}
