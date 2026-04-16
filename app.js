@@ -136,3 +136,18 @@ document.addEventListener("DOMContentLoaded", () => {
   loadSongs();
   loadArtists();
 });
+
+feed.innerHTML = data.map(song => `
+  <div class="card">
+    <img src="https://via.placeholder.com/300x300?text=Harmora"
+         alt="Artwork" class="artwork">
+    <h3>${song.title}</h3>
+    <p>$${song.price}</p>
+    <div class="card-actions">
+      <button class="btn-primary"
+        onclick="playSong('${song.audio_url}', '${song.title}')">▶ Play</button>
+      <button class="btn-secondary"
+        onclick="buySong('${song.title}', ${song.price})">Buy</button>
+    </div>
+  </div>
+`).join("");
