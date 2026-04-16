@@ -3,7 +3,7 @@
 <head>
   <title>Harmora</title>
 
-  <!-- 1. Supabase MUST load FIRST -->
+  <!-- Supabase (MUST be first) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
 
@@ -11,40 +11,32 @@
 
   <h1>Harmora</h1>
 
-  <!-- 🔐 AUTH SECTION -->
-  <h2>Login / Signup</h2>
-
+  <!-- AUTH -->
+  <h2>Auth</h2>
   <input id="email" placeholder="Email" />
   <input id="password" type="password" placeholder="Password" />
 
-  <button onclick="signup()">Sign Up</button>
-  <button onclick="login()">Login</button>
+  <button id="signupBtn">Sign Up</button>
+  <button id="loginBtn">Login</button>
 
   <hr>
 
-  <!-- 🎤 UPLOAD SECTION -->
-  <h2>Upload Music</h2>
+  <!-- UPLOAD -->
+  <h2>Upload Song</h2>
 
-  <input id="songTitle" placeholder="Song Title" />
+  <input id="songTitle" placeholder="Title" />
   <input id="songPrice" placeholder="Price" />
   <input id="songFile" type="file" />
 
-  <button onclick="uploadSong()">Upload Song</button>
+  <button id="uploadBtn">Upload</button>
 
   <hr>
 
-  <!-- 🎧 FEED -->
-  <h2>Music Feed</h2>
+  <!-- FEED -->
+  <h2>Songs</h2>
   <div id="songFeed"></div>
 
-  <hr>
-
-  <!-- ▶️ PLAYER -->
-  <h2>Now Playing</h2>
-  <audio id="audio" controls></audio>
-  <h3 id="trackName"></h3>
-
-  <!-- 2. YOUR JS MUST LOAD LAST -->
+  <!-- JS -->
   <script src="app.js"></script>
 
 </body>
