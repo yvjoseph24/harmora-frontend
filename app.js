@@ -1,144 +1,97 @@
-const supabaseUrl = "YOUR_SUPABASE_URL";
-const supabaseKey = "YOUR_SUPABASE_ANON_KEY";
+const supabase = window.supabase.createClient(
+  "YOUR_SUPABASE_URL",
+  "YOUR_SUPABASE_ANON_KEY"
+);
 
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-// ---------------- LOGIN ----------------
-async function signup() {
-  const email = emailEl().value;
-  const password = passEl().value;
-
-  const { error } = await supabase.auth.signUp({ email, password });
-  if (error) return alert(error.message);
-
-  alert("Account created 🎧");
+// AUTH SAFE CHECK
+async function getUserSafe(){
+  const { data:{ user } } = await supabase.auth.getUser();
+  if(!user) throw new Error("Not logged in");
+  return user;
 }
 
-async function login() {
-  const email = emailEl().value;
-  const password = passEl().value;
+// ARTIST
+async function createArtist(){
+  const user = await getUserSafe();
 
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) return alert(error.message);
-
-  alert("Logged in 🎧");
-}
-
-function emailEl(){ return document.getElementById("email"); }
-function passEl(){ return document.getElementById("password"); }
-
-// ---------------- ARTIST ----------------
-async function createArtist() {
-  const name = document.getElementById("artistName").value;
-  const bio = document.getElementById("artistBio").value;
-
-  const user = await supabase.auth.getUser();
-
-  const { error } = await supabase.from("artists").insert({
-    user_id: user.data.user.id,
-    artist_name: name,
-    bio: bio
+  await supabase.from("artists").insert({
+    user_id:user.id,
+    artist_name:artistName.value,
+    bio:artistBio.value
   });
 
-  if (error) return alert(error.message);
-
-  alert("Artist created 🎤");
   loadArtists();
 }
 
-// ---------------- UPLOAD MUSIC ----------------
-async function uploadSong() {
-  const title = document.getElementById("songTitle").value;
-  const price = document.getElementById("songPrice").value;
-  const file = document.getElementById("songFile").files[0];
+// UPLOAD
+async function uploadSong(){
+  const user = await getUserSafe();
 
-  const user = await supabase.auth.getUser();
+  const fileName = Date.now()+songFile.files[0].name;
 
-  const fileName = Date.now() + "-" + file.name;
-
-  const { error: uploadError } = await supabase.storage
-    .from("music")
-    .upload(fileName, file);
-
-  if (uploadError) return alert(uploadError.message);
+  await supabase.storage.from("music").upload(fileName, songFile.files[0]);
 
   const { data } = supabase.storage.from("music").getPublicUrl(fileName);
 
-  const { error } = await supabase.from("songs").insert({
-    artist_id: user.data.user.id,
-    title,
-    price,
-    audio_url: data.publicUrl
+  await supabase.from("songs").insert({
+    artist_id:user.id,
+    title:songTitle.value,
+    price:Number(songPrice.value),
+    audio_url:data.publicUrl
   });
 
-  if (error) return alert(error.message);
-
-  alert("Uploaded 🎧");
   loadSongs();
 }
 
-// ---------------- LOAD SONGS ----------------
-async function loadSongs() {
+// LOAD SONGS
+async function loadSongs(){
   const { data } = await supabase.from("songs").select("*");
 
-  const container = document.getElementById("songs");
-  container.innerHTML = "";
-
-  data.forEach(song => {
-    container.innerHTML += `
-      <div class="card">
-        <h3>${song.title}</h3>
-        <p>$${song.price}</p>
-        <button onclick="playSong('${song.audio_url}','${song.title}')">▶ Play</button>
-        <button onclick="buy('${song.title}', ${song.price})">Buy</button>
-      </div>
-    `;
-  });
+  songs.innerHTML = data.map(s => `
+    <div class="card">
+      <h3>${s.title}</h3>
+      <p>$${s.price}</p>
+      <button onclick="play('${s.audio_url}','${s.title}')">Play</button>
+      <button onclick="buy('${s.title}',${s.price},'${s.id}')">Buy</button>
+    </div>
+  `).join("");
 }
 
-// ---------------- LOAD ARTISTS ----------------
-async function loadArtists() {
+// LOAD ARTISTS
+async function loadArtists(){
   const { data } = await supabase.from("artists").select("*");
 
-  const container = document.getElementById("artistList");
-  container.innerHTML = "";
-
-  data.forEach(a => {
-    container.innerHTML += `
-      <div class="card">
-        <h3>${a.artist_name}</h3>
-        <p>${a.bio}</p>
-      </div>
-    `;
-  });
+  artists.innerHTML = data.map(a => `
+    <div class="card">
+      <h3>${a.artist_name}</h3>
+      <p>${a.bio}</p>
+    </div>
+  `).join("");
 }
 
-// ---------------- STRIPE ----------------
-async function buy(name, price) {
-  const res = await fetch("https://YOUR-RENDER.onrender.com/create-checkout-session", {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({ product: { name, price } })
+// PLAYER
+function play(url,name){
+  audio.src=url;
+  audio.play();
+  trackName.innerText=name;
+}
+
+function toggle(){
+  audio.paused ? audio.play() : audio.pause();
+}
+
+// STRIPE CALL (BACKEND ONLY TRUSTED)
+async function buy(name,price,id){
+  const res = await fetch("https://YOUR-BACKEND.onrender.com/pay",{
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body:JSON.stringify({ songId:id })
   });
 
   const data = await res.json();
   window.location.href = data.url;
 }
 
-// ---------------- PLAYER ----------------
-function playSong(url, name) {
-  const audio = document.getElementById("audio");
-  document.getElementById("trackName").innerText = name;
-  audio.src = url;
-  audio.play();
-}
-
-function togglePlay() {
-  const audio = document.getElementById("audio");
-  if (audio.paused) audio.play();
-  else audio.pause();
-}
-
-// ---------------- INIT ----------------
+// INIT
 loadSongs();
 loadArtists();
