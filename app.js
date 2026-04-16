@@ -151,3 +151,14 @@ feed.innerHTML = data.map(song => `
     </div>
   </div>
 `).join("");
+
+const audio = document.getElementById("audio");
+const progressBar = document.getElementById("progressBar");
+
+audio.addEventListener("timeupdate", () => {
+  progressBar.value = (audio.currentTime / audio.duration) * 100 || 0;
+});
+
+progressBar.addEventListener("input", () => {
+  audio.currentTime = (progressBar.value / 100) * audio.duration;
+});
