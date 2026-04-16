@@ -1,11 +1,27 @@
-async function loadSongs(){
-  const { data } = await supabase.from("songs").select("*");
+async function loadSongs() {
+  const container = document.getElementById("songs");
+  if (!container) return;
 
-  songs.innerHTML = data.map(s=>`
+  const { data, error } = await supabase.from("songs").select("*");
+
+  if (error) {
+    console.error(error);
+    container.innerHTML = "<p>Error loading songs.</p>";
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    container.innerHTML = "<p>No songs available yet.</p>";
+    return;
+  }
+
+  container.innerHTML = data.map(song => `
     <div class="card">
-      <h4>${s.title}</h4>
-      <p>$${s.price}</p>
-      <button onclick="playSong('${s.audio_url}','${s.title}')">Play</button>
+      <h4>${song.title}</h4>
+      <p>$${song.price}</p>
+      <button onclick="playSong('${song.audio_url}', '${song.title}')">
+        ▶ Play
+      </button>
     </div>
   `).join("");
 }
