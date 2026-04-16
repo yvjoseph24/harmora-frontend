@@ -122,3 +122,25 @@ input {
   justify-content: space-between;
   padding: 0 20px;
 }
+
+.hero {
+  background: linear-gradient(
+    135deg,
+    rgba(124, 92, 255, 0.15),
+    rgba(46, 211, 255, 0.08)
+  );
+  padding: 40px;
+  border-radius: 16px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.hero h1 {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  color: #a0a0b2;
+  margin-bottom: 20px;
+}
