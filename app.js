@@ -3,7 +3,7 @@ async function buy() {
   status.innerText = "Redirecting to checkout...";
 
   try {
-    const res = await fetch("https://YOUR-RENDER-URL.onrender.com/create-checkout-session", {
+    const res = await fetch("https://harmora-backend.onrender.com/create-checkout-session", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
