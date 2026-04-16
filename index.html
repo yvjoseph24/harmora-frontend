@@ -3,40 +3,41 @@
 <head>
   <title>Harmora</title>
 
-  <!-- Supabase (MUST be first) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
   <h1>Harmora</h1>
 
-  <!-- AUTH -->
-  <h2>Auth</h2>
-  <input id="email" placeholder="Email" />
-  <input id="password" type="password" placeholder="Password" />
+  <section>
+    <h2>Auth</h2>
+    <input id="email" placeholder="Email" />
+    <input id="password" type="password" placeholder="Password" />
 
-  <button id="signupBtn">Sign Up</button>
-  <button id="loginBtn">Login</button>
-
-  <hr>
-
-  <!-- UPLOAD -->
-  <h2>Upload Song</h2>
-
-  <input id="songTitle" placeholder="Title" />
-  <input id="songPrice" placeholder="Price" />
-  <input id="songFile" type="file" />
-
-  <button id="uploadBtn">Upload</button>
+    <button id="signupBtn">Sign Up</button>
+    <button id="loginBtn">Login</button>
+  </section>
 
   <hr>
 
-  <!-- FEED -->
-  <h2>Songs</h2>
-  <div id="songFeed"></div>
+  <section>
+    <h2>Upload</h2>
+    <input id="songTitle" placeholder="Title" />
+    <input id="songPrice" placeholder="Price" />
+    <input id="songFile" type="file" />
 
-  <!-- JS -->
+    <button id="uploadBtn">Upload Song</button>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>Feed</h2>
+    <div id="songFeed"></div>
+  </section>
+
   <script src="app.js"></script>
 
 </body>
