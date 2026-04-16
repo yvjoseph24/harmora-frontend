@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Harmora</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2 class="logo">🎧 Harmora</h2>
+    <nav>
+      <button onclick="showSection('explore')">Explore</button>
+      <button onclick="showSection('artists')">Artists</button>
+      <button onclick="showSection('upload')">Upload</button>
+      <button onclick="showSection('auth')">Login</button>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+    <!-- Hero -->
+    <section class="hero">
+      <h1>Feel the Sound of Summer</h1>
+      <p>Empowering artists to earn and fans to discover new music.</p>
+    </section>
+
+    <!-- Explore Songs -->
+    <section id="explore" class="section">
+      <h2>Trending Tracks</h2>
+      <div id="songFeed" class="grid"></div>
+    </section>
+
+    <!-- Artists -->
+    <section id="artists" class="section hidden">
+      <h2>Featured Artists</h2>
+      <div id="artistList" class="grid"></div>
+    </section>
+
+    <!-- Upload -->
+    <section id="upload" class="section hidden">
+      <h2>Upload Music</h2>
+      <input id="songTitle" placeholder="Song Title">
+      <input id="songPrice" placeholder="Price (USD)" type="number">
+      <input id="songFile" type="file" accept="audio/*">
+      <button class="btn-primary" onclick="uploadSong()">Upload</button>
+    </section>
+
+    <!-- Authentication -->
+    <section id="auth" class="section hidden">
+      <h2>Login / Sign Up</h2>
+      <input id="email" placeholder="Email">
+      <input id="password" type="password" placeholder="Password">
+      <button class="btn-primary" onclick="signup()">Sign Up</button>
+      <button class="btn-secondary" onclick="login()">Login</button>
+      <button class="btn-secondary" onclick="logout()">Logout</button>
+    </section>
+  </main>
+
+  <!-- Music Player -->
+  <footer id="player">
+    <span id="trackName">No track playing</span>
+    <div class="player-controls">
+      <button onclick="togglePlay()">Play/Pause</button>
+    </div>
+    <audio id="audio"></audio>
+  </footer>
+
+  <!-- App Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
