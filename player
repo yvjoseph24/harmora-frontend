@@ -1,0 +1,9 @@
+function playSong(url,name){
+  audio.src = url;
+  audio.play();
+  trackName.innerText = name;
+}
+
+function togglePlay(){
+  audio.paused ? audio.play() : audio.pause();
+}
