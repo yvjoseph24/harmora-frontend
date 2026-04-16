@@ -144,3 +144,15 @@ input {
   color: #a0a0b2;
   margin-bottom: 20px;
 }
+
+.artwork {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
