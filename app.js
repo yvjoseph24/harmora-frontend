@@ -1,20 +1,16 @@
 console.log("APP LOADED");
 
-// ---------------------------
-// 🔐 SUPABASE INIT (ONLY ONCE)
-// ---------------------------
-if (!window.supabase) {
-  console.error("Supabase not loaded. Check script order in HTML.");
-}
-
+// =====================
+// 1. SUPABASE INIT
+// =====================
 const supabaseUrl = "YOUR_SUPABASE_URL";
 const supabaseKey = "YOUR_SUPABASE_ANON_KEY";
 
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-// ---------------------------
-// 🔐 AUTH
-// ---------------------------
+// =====================
+// 2. AUTH
+// =====================
 async function signup() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
@@ -22,7 +18,6 @@ async function signup() {
   const { error } = await supabase.auth.signUp({ email, password });
 
   if (error) return alert(error.message);
-
   alert("Account created");
 }
 
@@ -32,126 +27,97 @@ async function login() {
 
   const { error } = await supabase.auth.signInWithPassword({
     email,
-    password,
+    password
   });
 
   if (error) return alert(error.message);
-
   alert("Logged in");
 }
 
-// ---------------------------
-// 🎤 UPLOAD SONG
-// ---------------------------
+// =====================
+// 3. UPLOAD SONG
+// =====================
 async function uploadSong() {
+  console.log("UPLOAD CLICKED");
+
   const title = document.getElementById("songTitle").value;
   const price = document.getElementById("songPrice").value;
   const file = document.getElementById("songFile").files[0];
 
-  if (!file) {
-    alert("No file selected");
-    return;
-  }
-
-  const fileName = `${Date.now()}-${file.name}`;
+  if (!file) return alert("No file selected");
 
   const { data: userData } = await supabase.auth.getUser();
 
   if (!userData.user) {
-    alert("You must be logged in");
-    return;
+    return alert("You must be logged in");
   }
 
-  // Upload to storage
+  const fileName = `${Date.now()}-${file.name}`;
+
+  // Upload file
   const { error: uploadError } = await supabase.storage
     .from("music")
     .upload(fileName, file);
 
   if (uploadError) {
-    console.error(uploadError);
-    alert(uploadError.message);
-    return;
+    console.log(uploadError);
+    return alert(uploadError.message);
   }
 
-  // Get public URL
+  // Get URL
   const { data: urlData } = supabase.storage
     .from("music")
     .getPublicUrl(fileName);
 
-  // Save to database
+  // Insert DB
   const { error: dbError } = await supabase.from("songs").insert({
     title,
     price,
     audio_url: urlData.publicUrl,
-    artist_id: userData.user.id,
+    artist_id: userData.user.id
   });
 
   if (dbError) {
-    console.error(dbError);
-    alert(dbError.message);
-    return;
+    console.log(dbError);
+    return alert(dbError.message);
   }
 
-  alert("Upload successful");
-
+  alert("UPLOAD SUCCESS");
   loadSongs();
 }
 
-// ---------------------------
-// 🎧 LOAD SONG FEED
-// ---------------------------
+// =====================
+// 4. LOAD SONGS FEED
+// =====================
 async function loadSongs() {
   const container = document.getElementById("songFeed");
-
-  if (!container) return;
 
   const { data, error } = await supabase
     .from("songs")
     .select("*")
-    .order("id", { ascending: false });
+    .order("created_at", { ascending: false });
 
   if (error) {
-    console.error(error);
+    console.log(error);
     container.innerHTML = "<p>Error loading songs</p>";
     return;
   }
 
-  if (!data || data.length === 0) {
-    container.innerHTML = "<p>No songs yet</p>";
-    return;
-  }
-
-  container.innerHTML = data
-    .map(
-      (song) => `
-    <div class="card">
+  container.innerHTML = data.map(song => `
+    <div>
       <h4>${song.title}</h4>
       <p>$${song.price}</p>
-      <button onclick="playSong('${song.audio_url}', '${song.title}')">
-        ▶ Play
-      </button>
+      <audio controls src="${song.audio_url}"></audio>
     </div>
-  `
-    )
-    .join("");
+  `).join("");
 }
 
-// ---------------------------
-// ▶️ PLAYER
-// ---------------------------
-function playSong(url, title) {
-  const audio = document.getElementById("audio");
-  const name = document.getElementById("trackName");
+// =====================
+// 5. BUTTON CONNECTIONS
+// =====================
+document.getElementById("signupBtn").onclick = signup;
+document.getElementById("loginBtn").onclick = login;
+document.getElementById("uploadBtn").onclick = uploadSong;
 
-  if (!audio) return;
-
-  audio.src = url;
-  audio.play();
-
-  if (name) name.innerText = title;
-}
-
-// ---------------------------
-// 🚀 INIT
-// ---------------------------
+// Load feed on start
 loadSongs();
