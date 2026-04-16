@@ -6,7 +6,6 @@
 <title>Harmora</title>
 
 <style>
-/* ===== GLOBAL ===== */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -15,7 +14,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ===== NAV ===== */
+/* NAV */
 .nav {
   display: flex;
   justify-content: space-between;
@@ -44,7 +43,7 @@ body {
   color: #00f5ff;
 }
 
-/* ===== HERO ===== */
+/* HERO */
 .hero {
   text-align: center;
   padding: 90px 20px;
@@ -64,7 +63,7 @@ body {
   color: #aaa;
 }
 
-/* ===== SECTIONS ===== */
+/* SECTIONS */
 section {
   scroll-margin-top: 80px;
 }
@@ -77,9 +76,10 @@ section {
   font-size: 22px;
   color: #00f5ff;
   margin-bottom: 20px;
+  text-align: center;
 }
 
-/* ===== GRID ===== */
+/* GRID */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -101,7 +101,7 @@ section {
   border-color: #00f5ff;
 }
 
-/* ===== BUTTONS ===== */
+/* BUTTONS (GLOBAL BUY) */
 button {
   width: 100%;
   padding: 10px;
@@ -114,14 +114,14 @@ button {
   cursor: pointer;
 }
 
-/* ===== CTA ===== */
+/* CTA */
 .cta {
   text-align: center;
   padding: 60px 20px;
   background: rgba(0,0,0,0.5);
 }
 
-/* ===== LOGIN BOX ===== */
+/* LOGIN */
 .loginBox {
   max-width: 400px;
   margin: auto;
@@ -131,7 +131,7 @@ button {
   border: 1px solid rgba(0,245,255,0.2);
 }
 
-/* ===== PLAYER ===== */
+/* PLAYER BAR */
 #playerBar {
   position: fixed;
   bottom: 0;
@@ -142,17 +142,28 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 20px;
+  padding: 10px 18px;
   backdrop-filter: blur(10px);
-  color: white;
   z-index: 100;
+}
+
+/* FIXED SMALL BUTTON (IMPORTANT FIX) */
+#playerBar button {
+  width: auto;
+  padding: 6px 14px;
+  margin: 0;
+  font-size: 13px;
+  border-radius: 20px;
+  white-space: nowrap;
 }
 
 #trackName {
   flex: 1;
+  font-size: 14px;
+  color: #00f5ff;
 }
 
-/* ===== FOOTER ===== */
+/* FOOTER */
 footer {
   text-align: center;
   padding: 20px;
@@ -190,7 +201,6 @@ footer {
     <div class="card">
       <h3>Neon Dreams</h3>
       <p>Night Trap Beat</p>
-
       <button onclick="playTrack('Neon Dreams', 'audio/neon.mp3')">▶ Preview</button>
       <button onclick="buy('Neon Dreams', 10)">Buy $10</button>
     </div>
@@ -198,7 +208,6 @@ footer {
     <div class="card">
       <h3>Midnight Waves</h3>
       <p>Lo-fi Summer Mix</p>
-
       <button onclick="playTrack('Midnight Waves', 'audio/waves.mp3')">▶ Preview</button>
       <button onclick="buy('Midnight Waves', 12)">Buy $12</button>
     </div>
@@ -206,7 +215,6 @@ footer {
     <div class="card">
       <h3>After Hours</h3>
       <p>Club Sample Pack</p>
-
       <button onclick="playTrack('After Hours', 'audio/after.mp3')">▶ Preview</button>
       <button onclick="buy('After Hours', 15)">Buy $15</button>
     </div>
@@ -216,28 +224,23 @@ footer {
 
 <!-- ARTISTS -->
 <section id="artists" class="section">
-  <div class="title">🌟 Artist Power System</div>
+  <div class="title">🌟 Artist System</div>
 
   <div class="grid">
 
     <div class="card">
       <h3>Direct Sales</h3>
-      <p>Sell music, merch, and exclusives.</p>
+      <p>Sell music, merch, and exclusive content.</p>
     </div>
 
     <div class="card">
-      <h3>Instant Revenue Splits</h3>
-      <p>Your cut is automatically taken via Stripe Connect.</p>
+      <h3>Instant Splits</h3>
+      <p>Your cut is automatically handled via Stripe Connect.</p>
     </div>
 
     <div class="card">
       <h3>Bundles</h3>
       <p>Music + merch + tickets in one drop.</p>
-    </div>
-
-    <div class="card">
-      <h3>Fan System</h3>
-      <p>Subscriptions, exclusives, and messaging tools.</p>
     </div>
 
   </div>
@@ -248,9 +251,9 @@ footer {
   <div class="title">🔐 Login</div>
 
   <div class="loginBox">
-    <p>Backend login coming with Supabase Auth.</p>
+    <p>Supabase login coming next.</p>
     <input placeholder="Email" style="width:100%;padding:10px;margin:5px 0;">
-    <input placeholder="Password" type="password" style="width:100%;padding:10px;margin:5px 0;">
+    <input type="password" placeholder="Password" style="width:100%;padding:10px;margin:5px 0;">
     <button disabled>Login (Coming Soon)</button>
   </div>
 </section>
@@ -263,7 +266,7 @@ footer {
 
 <footer>© 2026 Harmora</footer>
 
-<!-- PLAYER BAR -->
+<!-- PLAYER -->
 <div id="playerBar">
   <div id="trackName">No track selected</div>
   <button onclick="togglePlay()">▶ Play</button>
