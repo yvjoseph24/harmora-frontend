@@ -1,166 +1,48 @@
-:root {
-  --bg-main: #0b0b10;
-  --bg-surface: #12121a;
-  --accent-primary: #7c5cff;
-  --accent-secondary: #2ed3ff;
-  --text-primary: #ffffff;
-  --text-secondary: #a0a0b2;
-  --border-subtle: rgba(255, 255, 255, 0.08);
-}
+<body>
 
-* {
-  box-sizing: border-box;
-}
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="logo">
+      <h2>Harmora</h2>
+    </div>
 
-body {
-  margin: 0;
-  font-family: 'Inter', sans-serif;
-  background: var(--bg-main);
-  color: var(--text-primary);
-  display: flex;
-}
+    <button>Home</button>
+    <button>Upload</button>
+    <button>Library</button>
+  </div>
 
-/* Sidebar */
-.sidebar {
-  width: 220px;
-  background: var(--bg-surface);
-  padding: 20px;
-  border-right: 1px solid var(--border-subtle);
-  position: fixed;
-  height: 100vh;
-}
+  <!-- MAIN -->
+  <div class="main">
 
-.logo {
-  margin-bottom: 20px;
-}
+    <!-- HERO -->
+    <div class="hero">
+      <h1>Build. Upload. Earn.</h1>
+      <p>Music platform for independent artists</p>
+    </div>
 
-.sidebar button {
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  background: var(--accent-primary);
-  color: white;
-  cursor: pointer;
-  font-weight: 600;
-}
+    <!-- AUTH -->
+    <input id="email" placeholder="Email">
+    <input id="password" placeholder="Password">
 
-/* Main */
-.main {
-  margin-left: 220px;
-  padding: 30px;
-  width: 100%;
-}
+    <button class="btn-primary" onclick="signup()">Sign Up</button>
+    <button class="btn-secondary" onclick="login()">Login</button>
 
-.hero {
-  margin-bottom: 30px;
-}
+    <!-- UPLOAD -->
+    <input id="songTitle" placeholder="Song Title">
+    <input id="songPrice" placeholder="Price">
+    <input id="songFile" type="file">
 
-.section.hidden {
-  display: none;
-}
+    <button class="btn-primary" onclick="uploadSong()">Upload</button>
 
-/* Grid */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 20px;
-}
+    <!-- SONG GRID -->
+    <div id="songFeed" class="grid"></div>
 
-/* Cards */
-.card {
-  background: var(--bg-surface);
-  padding: 15px;
-  border-radius: 10px;
-  border: 1px solid var(--border-subtle);
-}
+  </div>
 
-/* Buttons */
-.btn-primary {
-  background: var(--accent-primary);
-  color: white;
-  border: none;
-  padding: 10px;
-  margin-top: 10px;
-  border-radius: 8px;
-  cursor: pointer;
-}
+  <!-- PLAYER (IMPORTANT FOR CSS) -->
+  <div id="player">
+    <audio id="audio" controls></audio>
+    <h3 id="trackName"></h3>
+  </div>
 
-.btn-secondary {
-  background: transparent;
-  border: 1px solid var(--border-subtle);
-  color: var(--text-primary);
-  padding: 10px;
-  margin-top: 10px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-/* Inputs */
-input {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  border-radius: 8px;
-  border: 1px solid var(--border-subtle);
-  background: #0f0f16;
-  color: white;
-}
-
-/* Player */
-#player {
-  position: fixed;
-  bottom: 0;
-  left: 220px;
-  right: 0;
-  height: 60px;
-  background: var(--bg-surface);
-  border-top: 1px solid var(--border-subtle);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-}
-
-.hero {
-  background: linear-gradient(
-    135deg,
-    rgba(124, 92, 255, 0.15),
-    rgba(46, 211, 255, 0.08)
-  );
-  padding: 40px;
-  border-radius: 16px;
-  margin-bottom: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.hero h1 {
-  font-size: 32px;
-  margin-bottom: 10px;
-}
-
-.hero p {
-  color: #a0a0b2;
-  margin-bottom: 20px;
-}
-
-.artwork {
-  width: 100%;
-  border-radius: 10px;
-  margin-bottom: 10px;
-}
-
-.card-actions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
-.motivation {
-  margin-top: 40px;
-  padding: 25px;
-  border-radius: 16px;
-  background: rgba(124, 92, 255, 0.08);
-  border: 1px solid rgba(124, 92, 255, 0.2);
-}
+</body>
