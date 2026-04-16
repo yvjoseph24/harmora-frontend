@@ -1,9 +1,17 @@
-function playSong(url,name){
+function playSong(url, name) {
+  const audio = document.getElementById("audio");
+  const trackName = document.getElementById("trackName");
+
   audio.src = url;
+  trackName.textContent = name;
   audio.play();
-  trackName.innerText = name;
 }
 
-function togglePlay(){
-  audio.paused ? audio.play() : audio.pause();
+function togglePlay() {
+  const audio = document.getElementById("audio");
+  if (audio.paused) {
+    audio.play();
+  } else {
+    audio.pause();
+  }
 }
