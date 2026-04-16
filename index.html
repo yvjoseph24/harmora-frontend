@@ -1,70 +1,33 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Harmora</title>
-
-<link rel="stylesheet" href="styles.css">
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-</head>
-
-<body>
-
 <div class="layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">🎧 Harmora</div>
+    <a class="nav-link active" href="#">Explore</a>
+    <a class="nav-link" href="#">Artists</a>
+    <a class="nav-link" href="#">Dashboard</a>
+    <a class="nav-link" href="#">Upload</a>
+  </aside>
 
-<div class="sidebar">
-<h3>🎧 Harmora</h3>
-<button onclick="loadSongs()">Explore</button>
-<button onclick="loadArtists()">Artists</button>
-<button onclick="toggleQueue()">Queue</button>
+  <!-- Main Content -->
+  <main class="main">
+    <section class="hero">
+      <h1>Discover the Sound of Tomorrow</h1>
+      <p>Empowering artists to earn and fans to connect through music.</p>
+    </section>
+
+    <h2 class="section-title">Trending Tracks</h2>
+    <div id="songs" class="grid"></div>
+
+    <h2 class="section-title">Featured Artists</h2>
+    <div id="artists" class="grid"></div>
+  </main>
 </div>
 
-<div class="main">
-
-<div class="hero">
-<h1>🌌 Harmora Music</h1>
-<p>Where artists earn. Fans discover. Music lives at night.</p>
-</div>
-
-<h3>Create Artist</h3>
-<input id="artistName" placeholder="Artist Name">
-<input id="artistBio" placeholder="Bio">
-<button onclick="createArtist()">Create</button>
-
-<h3>Upload Song</h3>
-<input id="songTitle" placeholder="Title">
-<input id="songPrice" placeholder="Price">
-<input id="songFile" type="file">
-<button onclick="uploadSong()">Upload</button>
-
-<h3>Marketplace</h3>
-<div id="songs"></div>
-
-<h3>Artists</h3>
-<div id="artists"></div>
-
-</div>
-
-</div>
-
+<!-- Player -->
 <div id="player">
-<div id="trackName">No track</div>
-<button onclick="togglePlay()">▶</button>
-<audio id="audio"></audio>
+  <div id="trackName">No track playing</div>
+  <div class="player-controls">
+    <button class="btn btn-secondary" onclick="togglePlay()">Play/Pause</button>
+  </div>
+  <audio id="audio"></audio>
 </div>
-
-<!-- JS LOADING ORDER MATTERS -->
-<script src="js/supabase.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/songs.js"></script>
-<script src="js/artists.js"></script>
-<script src="js/upload.js"></script>
-<script src="js/player.js"></script>
-<script src="js/payments.js"></script>
-
-</body>
-</html>
-<!-- Add inside <head> of index.html -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
