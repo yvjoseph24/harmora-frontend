@@ -1,7 +1,7 @@
 console.log("APP LOADED");
 
 // =====================
-// SUPABASE INIT (ONLY ONCE)
+// SUPABASE INIT
 // =====================
 const supabaseUrl = "YOUR_SUPABASE_URL";
 const supabaseKey = "YOUR_SUPABASE_ANON_KEY";
@@ -11,7 +11,7 @@ const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 // =====================
 // AUTH
 // =====================
-document.getElementById("signupBtn").onclick = async () => {
+document.getElementById("signupBtn").addEventListener("click", async () => {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
@@ -19,9 +19,9 @@ document.getElementById("signupBtn").onclick = async () => {
 
   if (error) return alert(error.message);
   alert("Account created");
-};
+});
 
-document.getElementById("loginBtn").onclick = async () => {
+document.getElementById("loginBtn").addEventListener("click", async () => {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
@@ -32,12 +32,12 @@ document.getElementById("loginBtn").onclick = async () => {
 
   if (error) return alert(error.message);
   alert("Logged in");
-};
+});
 
 // =====================
 // UPLOAD
 // =====================
-document.getElementById("uploadBtn").onclick = async () => {
+document.getElementById("uploadBtn").addEventListener("click", async () => {
   console.log("UPLOAD CLICKED");
 
   const title = document.getElementById("songTitle").value;
@@ -82,4 +82,4 @@ document.getElementById("uploadBtn").onclick = async () => {
   }
 
   alert("UPLOAD SUCCESS");
-};
+});
