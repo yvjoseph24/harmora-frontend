@@ -86,3 +86,14 @@
   <p>Empowering artists to earn and fans to discover music in a vibrant nightlife-inspired space.</p>
   <button class="btn-primary" onclick="showSection('explore')">Explore Music</button>
 </section>
+
+<footer id="player">
+  <div class="player-info">
+    <span id="trackName">No track playing</span>
+  </div>
+  <div class="player-controls">
+    <button onclick="togglePlay()">⏯</button>
+  </div>
+  <input type="range" id="progressBar" value="0" step="1">
+  <audio id="audio"></audio>
+</footer>
