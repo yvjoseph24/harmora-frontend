@@ -162,3 +162,8 @@ audio.addEventListener("timeupdate", () => {
 progressBar.addEventListener("input", () => {
   audio.currentTime = (progressBar.value / 100) * audio.duration;
 });
+
+async function buySong(name, price) {
+  alert(`Redirecting to purchase ${name} for $${price}`);
+  // Later connect to your Render backend with Stripe Checkout
+}
