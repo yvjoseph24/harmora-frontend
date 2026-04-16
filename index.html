@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Harmora</title>
 
-<!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
 <style>
@@ -20,71 +19,94 @@ body {
 .nav {
   display: flex;
   justify-content: space-between;
-  padding: 15px 25px;
+  padding: 14px 20px;
   background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(10px);
   position: sticky;
   top: 0;
 }
 
 .logo {
   color: #00f5ff;
-  font-size: 22px;
   font-weight: bold;
+  font-size: 20px;
 }
 
 .nav a {
-  margin-left: 15px;
+  margin-left: 12px;
   color: #aaa;
   text-decoration: none;
   cursor: pointer;
 }
-
-.nav a:hover {
-  color: #00f5ff;
-}
+.nav a:hover { color:#00f5ff; }
 
 /* HERO */
 .hero {
   text-align: center;
-  padding: 60px 20px;
+  padding: 50px 20px;
 }
 
 /* SECTIONS */
 .section {
-  padding: 40px 20px;
+  padding: 35px 18px;
 }
 
 /* GRID */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
 }
 
 .card {
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(0,245,255,0.2);
-  padding: 15px;
   border-radius: 12px;
+  padding: 12px;
+}
+
+/* MINI PANELS */
+.miniPanel {
+  max-width: 420px;
+  background: rgba(255,255,255,0.05);
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,245,255,0.2);
+}
+
+.miniPanel input {
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0;
+  background: #111;
+  border: 1px solid #333;
+  color: white;
 }
 
 /* BUTTONS */
 button {
   width: 100%;
-  padding: 10px;
-  margin-top: 10px;
+  padding: 8px;
+  margin-top: 8px;
   border-radius: 8px;
   border: none;
   background: linear-gradient(90deg,#00f5ff,#b400ff);
-  cursor: pointer;
   font-weight: bold;
+  cursor: pointer;
 }
 
-/* LOGIN */
-.loginBox {
-  max-width: 400px;
-  margin: auto;
+/* FEED */
+.feed {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.feedCard {
+  background: rgba(255,255,255,0.05);
+  border-left: 3px solid #00f5ff;
+  padding: 12px;
+  border-radius: 10px;
 }
 
 /* PLAYER */
@@ -92,16 +114,20 @@ button {
   position: fixed;
   bottom: 0;
   width: 100%;
+  height: 42px;
   background: rgba(10,0,25,0.95);
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  padding: 10px;
+  padding: 0 10px;
   border-top: 1px solid #00f5ff33;
+  font-size: 12px;
 }
 
-#playerBar button {
+.playBtn {
   width: auto;
-  padding: 6px 12px;
+  padding: 5px 10px;
+  font-size: 12px;
   border-radius: 20px;
 }
 
@@ -118,7 +144,7 @@ button {
 <div class="nav">
   <div class="logo">🎧 Harmora</div>
   <div>
-    <a href="#explore">Explore</a>
+    <a href="#feed">Explore</a>
     <a href="#artists">Artists</a>
     <a href="#upload">Upload</a>
     <a href="#login">Login</a>
@@ -127,61 +153,77 @@ button {
 
 <!-- HERO -->
 <div class="hero">
-  <h1>Build. Drop. Earn.</h1>
-  <p>Music marketplace for creators</p>
+  <h1>Music. Nightlife. Culture.</h1>
 </div>
 
-<!-- EXPLORE / MARKETPLACE -->
-<section id="explore" class="section">
-  <h2>🔥 Marketplace</h2>
-  <div id="songs" class="grid"></div>
+<!-- 🌟 MOTIVATION -->
+<section class="section">
+  <h2>🌟 Creator Energy</h2>
+
+  <div class="grid">
+    <div class="card">
+      <h3>🔥 Motivation</h3>
+      <p>Drop music. Grow fast. Build your brand.</p>
+    </div>
+    <div class="card">
+      <h3>🎤 Concerts</h3>
+      <p>Upcoming shows coming soon</p>
+    </div>
+    <div class="card">
+      <h3>💸 Earn</h3>
+      <p>Turn every drop into income</p>
+    </div>
+  </div>
 </section>
 
-<!-- ARTISTS -->
+<!-- 🎤 ARTISTS -->
 <section id="artists" class="section">
-  <h2>🎤 Artist Profile</h2>
+  <h2>🎤 Artists</h2>
 
-  <div class="card">
-    <input id="artistName" placeholder="Artist Name" style="width:100%;padding:10px;">
-    <input id="artistBio" placeholder="Bio" style="width:100%;padding:10px;margin-top:5px;">
-    <button onclick="createArtist()">Create Artist Profile</button>
+  <div class="miniPanel">
+    <input id="artistName" placeholder="Artist Name">
+    <input id="artistBio" placeholder="Bio">
+    <button onclick="createArtist()">Save Artist</button>
   </div>
 
   <div id="artistList" class="grid"></div>
 </section>
 
-<!-- UPLOAD -->
+<!-- 🎧 UPLOAD -->
 <section id="upload" class="section">
-  <h2>🎧 Upload Music</h2>
+  <h2>🎧 Upload</h2>
 
-  <div class="card">
-    <input id="songTitle" placeholder="Song Title" style="width:100%;padding:10px;">
-    <input id="songPrice" placeholder="Price" type="number" style="width:100%;padding:10px;margin-top:5px;">
-    <input id="songFile" type="file" style="margin-top:10px;">
-    <button onclick="uploadSong()">Upload</button>
+  <div class="miniPanel">
+    <input id="songTitle" placeholder="Title">
+    <input id="songPrice" placeholder="Price">
+    <input id="songFile" type="file">
+    <button onclick="uploadSong()">Upload (Pending)</button>
   </div>
 </section>
 
-<!-- LOGIN -->
+<!-- 🛒 FEED -->
+<section id="feed" class="section">
+  <h2>🔥 Discover</h2>
+  <div id="songFeed" class="feed"></div>
+</section>
+
+<!-- 🔐 LOGIN -->
 <section id="login" class="section">
   <h2>🔐 Login</h2>
 
-  <div class="loginBox card">
-    <input id="email" placeholder="Email" style="width:100%;padding:10px;">
-    <input id="password" type="password" placeholder="Password" style="width:100%;padding:10px;margin-top:5px;">
+  <div class="miniPanel">
+    <input id="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Password">
+
     <button onclick="signup()">Sign Up</button>
     <button onclick="login()">Login</button>
   </div>
 </section>
 
-<footer style="text-align:center;color:#444;padding:20px;">
-© 2026 Harmora
-</footer>
-
 <!-- PLAYER -->
 <div id="playerBar">
-  <div id="trackName">No track selected</div>
-  <button onclick="togglePlay()">▶</button>
+  <div id="trackName">No track</div>
+  <button class="playBtn" onclick="togglePlay()">▶</button>
   <audio id="audio"></audio>
 </div>
 
