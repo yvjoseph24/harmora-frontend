@@ -1,135 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Harmora</title>
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
-  <!-- Styles -->
   <link rel="stylesheet" href="styles.css">
-
-  <!-- Supabase CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
+
 <body>
 
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <h2 class="logo">🎧 Harmora</h2>
-    <nav>
-      <button onclick="showSection('explore')">Explore</button>
-      <button onclick="showSection('artists')">Artists</button>
-      <button onclick="showSection('upload')">Upload</button>
-      <button onclick="showSection('auth')">Login</button>
-    </nav>
-  </aside>
+  <div class="container">
 
-  <!-- Main Content -->
-  <main class="main">
-    <!-- Hero -->
-    <section class="hero">
-      <h1>Feel the Sound of Summer</h1>
-      <p>Empowering artists to earn and fans to discover new music.</p>
-    </section>
+    <h1>Harmora</h1>
 
-    <!-- Explore Songs -->
-    <section id="explore" class="section">
-      <h2>Trending Tracks</h2>
-      <div id="songFeed" class="grid"></div>
-    </section>
+    <!-- AUTH -->
+    <input id="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Password">
 
-    <!-- Artists -->
-    <section id="artists" class="section hidden">
-      <h2>Featured Artists</h2>
-      <div id="artistList" class="grid"></div>
-    </section>
+    <button onclick="signup()">Sign Up</button>
+    <button onclick="login()">Login</button>
 
-    <!-- Upload -->
-    <section id="upload" class="section hidden">
-      <h2>Upload Music</h2>
-      <input id="songTitle" placeholder="Song Title">
-      <input id="songPrice" placeholder="Price (USD)" type="number">
-      <input id="songFile" type="file" accept="audio/*">
-      <button class="btn-primary" onclick="uploadSong()">Upload</button>
-    </section>
+    <hr>
 
-    <!-- Authentication -->
-    <section id="auth" class="section hidden">
-      <h2>Login / Sign Up</h2>
-      <input id="email" placeholder="Email">
-      <input id="password" type="password" placeholder="Password">
-      <button class="btn-primary" onclick="signup()">Sign Up</button>
-      <button class="btn-secondary" onclick="login()">Login</button>
-      <button class="btn-secondary" onclick="logout()">Logout</button>
-    </section>
-  </main>
+    <!-- UPLOAD -->
+    <input id="songTitle" placeholder="Song Title">
+    <input id="songPrice" placeholder="Price">
+    <input id="songFile" type="file">
 
-  <!-- Music Player -->
-  <footer id="player">
-    <span id="trackName">No track playing</span>
-    <div class="player-controls">
-      <button onclick="togglePlay()">Play/Pause</button>
-    </div>
-    <audio id="audio"></audio>
-  </footer>
+    <button onclick="uploadSong()">Upload Song</button>
 
-  <!-- App Logic -->
+    <hr>
+
+    <!-- FEED -->
+    <div id="songFeed"></div>
+
+    <!-- PLAYER -->
+    <audio id="audio" controls></audio>
+    <h3 id="trackName"></h3>
+
+  </div>
+
   <script src="app.js"></script>
+
 </body>
 </html>
-
-<section class="hero">
-  <h1>Feel the Sound of Summer</h1>
-  <p>Empowering artists to earn and fans to discover music in a vibrant nightlife-inspired space.</p>
-  <button class="btn-primary" onclick="showSection('explore')">Explore Music</button>
-</section>
-
-<footer id="player">
-  <div class="player-info">
-    <span id="trackName">No track playing</span>
-  </div>
-  <div class="player-controls">
-    <button onclick="togglePlay()">⏯</button>
-  </div>
-  <input type="range" id="progressBar" value="0" step="1">
-  <audio id="audio"></audio>
-</footer>
-
-<section class="motivation">
-  <h2>🎤 Artist Spotlight</h2>
-  <p>
-    “Your music deserves to be heard. Harmora gives you the tools to earn,
-    connect, and inspire the world.”
-  </p>
-</section>
-
-<section class="concerts">
-  <h2>🎫 Upcoming Concerts</h2>
-  <div class="grid">
-    <div class="card">
-      <h3>Summer Beats Festival</h3>
-      <p>Miami, FL • July 20</p>
-    </div>
-    <div class="card">
-      <h3>Night Vibes Tour</h3>
-      <p>Los Angeles, CA • August 12</p>
-    </div>
-  </div>
-</section>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-<script src="app.js"></script>
-<input id="email" placeholder="email">
-<input id="password" type="password">
-
-<button onclick="login()">Login</button>
-<button onclick="signup()">Sign Up</button>
-
-<input id="songTitle">
-<input id="songPrice">
-<input id="songFile" type="file">
-
-<button onclick="uploadSong()">Upload</button>
