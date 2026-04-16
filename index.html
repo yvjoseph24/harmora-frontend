@@ -1,203 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Harmora - Summer Marketplace</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harmora</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #ffecd2, #fcb69f);
-      color: #222;
-    }
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle at top, #1a0033, #000);
+    color: white;
+  }
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      padding: 15px 30px;
-      background: rgba(0,0,0,0.8);
-      color: white;
-    }
+  /* NAV */
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 30px;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(10px);
+  }
 
-    nav a {
-      color: white;
-      margin-left: 15px;
-      text-decoration: none;
-      font-weight: bold;
-    }
+  .logo {
+    font-size: 20px;
+    font-weight: bold;
+    color: #00f5ff;
+  }
 
-    .hero {
-      text-align: center;
-      padding: 100px 20px;
-    }
+  .nav a {
+    color: #ccc;
+    margin-left: 15px;
+    text-decoration: none;
+  }
 
-    .hero h1 {
-      font-size: 48px;
-    }
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 80px 20px;
+  }
 
-    .hero p {
-      font-size: 18px;
-      max-width: 700px;
-      margin: auto;
-    }
+  .hero h1 {
+    font-size: 42px;
+    color: #ffffff;
+  }
 
-    .section {
-      padding: 60px 20px;
-      text-align: center;
-    }
+  .hero span {
+    color: #00f5ff;
+  }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-      max-width: 1100px;
-      margin: auto;
-    }
+  .hero p {
+    max-width: 600px;
+    margin: auto;
+    color: #bbb;
+  }
 
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
+  /* SECTION */
+  .section {
+    padding: 40px 20px;
+  }
 
-    button {
-      background: black;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
+  .title {
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #00f5ff;
+  }
 
-    .cta {
-      background: black;
-      color: white;
-      padding: 70px 20px;
-      text-align: center;
-    }
+  /* GRID */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+  }
 
-    .cta h2 {
-      font-size: 32px;
-    }
+  .card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(0,245,255,0.2);
+    padding: 15px;
+    border-radius: 12px;
+    transition: 0.3s;
+  }
 
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #111;
-      color: #aaa;
-    }
+  .card:hover {
+    transform: scale(1.03);
+    border-color: #00f5ff;
+  }
 
-    .badge {
-      display: inline-block;
-      background: gold;
-      padding: 5px 10px;
-      border-radius: 20px;
-      font-size: 12px;
-      margin-bottom: 10px;
-    }
-  </style>
+  .price {
+    color: #00f5ff;
+    font-weight: bold;
+  }
+
+  button {
+    margin-top: 10px;
+    padding: 10px;
+    width: 100%;
+    background: linear-gradient(90deg, #00f5ff, #b400ff);
+    border: none;
+    color: black;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  /* CTA */
+  .cta {
+    text-align: center;
+    padding: 60px 20px;
+    background: linear-gradient(90deg, #0d001f, #000);
+  }
+
+  .cta h2 {
+    color: #00f5ff;
+  }
+
+  footer {
+    text-align: center;
+    padding: 20px;
+    color: #555;
+  }
+</style>
 </head>
 
 <body>
 
-<header>
-  <h2>🌴 Harmora</h2>
-  <nav>
-    <a href="#">Home</a>
+<!-- NAV -->
+<div class="nav">
+  <div class="logo">🎧 Harmora</div>
+  <div>
     <a href="#">Explore</a>
     <a href="#">Artists</a>
     <a href="#">Login</a>
-  </nav>
-</header>
+  </div>
+</div>
 
 <!-- HERO -->
-<section class="hero">
-  <div class="badge">Summer Drop Marketplace ☀️</div>
-  <h1>Where Artists Sell & Grow Fast</h1>
+<div class="hero">
+  <h1>Feel the <span>Night Sound</span></h1>
   <p>
-    Harmora is a next-generation music marketplace where creators sell beats, songs, albums,
-    and exclusive content directly to fans—with instant payouts and automatic revenue splits.
+    A music marketplace where artists drop beats, albums, and experiences in a nightlife-inspired space.
   </p>
-</section>
+</div>
 
-<!-- FEATURED PRODUCTS -->
-<section class="section">
-  <h2>🔥 Featured Summer Drops</h2>
-
-  <div class="grid">
-
-    <div class="card">
-      <h3>Summer Heat Pack</h3>
-      <p>Afro / Trap fusion beats for summer vibes</p>
-      <p><strong>$10</strong></p>
-      <button onclick="buy('Summer Heat Pack', 10)">Buy Now</button>
-    </div>
-
-    <div class="card">
-      <h3>Ocean Drive Album</h3>
-      <p>Chill melodic summer soundtrack</p>
-      <p><strong>$15</strong></p>
-      <button onclick="buy('Ocean Drive Album', 15)">Buy Now</button>
-    </div>
-
-    <div class="card">
-      <h3>Sunset Sample Kit</h3>
-      <p>Exclusive drum + melody sample pack</p>
-      <p><strong>$20</strong></p>
-      <button onclick="buy('Sunset Sample Kit', 20)">Buy Now</button>
-    </div>
-
-  </div>
-</section>
-
-<!-- VALUE PROPOSITION -->
-<section class="section">
-  <h2>🌟 Why Artists Choose Harmora</h2>
+<!-- MUSIC -->
+<div class="section">
+  <div class="title">🔥 Trending Drops</div>
 
   <div class="grid">
 
     <div class="card">
-      <h3>🛒 Direct-to-Fan Sales</h3>
-      <p>Sell singles, albums, beat packs, merch, and exclusive content. You control your pricing.</p>
+      <h3>Midnight Drive</h3>
+      <p>Dark R&B / Trap fusion</p>
+      <p class="price">$10</p>
+      <button onclick="buy('Midnight Drive', 10)">Buy Now</button>
     </div>
 
     <div class="card">
-      <h3>💸 Instant Revenue Splits</h3>
-      <p>Harmora automatically splits payments between collaborators using Stripe Connect.</p>
-      <p><strong>Your cut is taken automatically.</strong></p>
+      <h3>Neon Nights</h3>
+      <p>Club / EDM vibe pack</p>
+      <p class="price">$15</p>
+      <button onclick="buy('Neon Nights', 15)">Buy Now</button>
     </div>
 
     <div class="card">
-      <h3>📦 Bundled Products</h3>
-      <p>Sell music + merch + experiences together in one checkout.</p>
-    </div>
-
-    <div class="card">
-      <h3>📊 Advanced Analytics</h3>
-      <p>Track sales, revenue, and fan engagement in real time dashboards.</p>
-    </div>
-
-    <div class="card">
-      <h3>🌐 Fan Engagement</h3>
-      <p>Subscriptions, exclusive drops, community access, and direct messaging tools.</p>
+      <h3>After Hours Kit</h3>
+      <p>Late night sample pack</p>
+      <p class="price">$20</p>
+      <button onclick="buy('After Hours Kit', 20)">Buy Now</button>
     </div>
 
   </div>
-</section>
+</div>
+
+<!-- ARTIST VALUE -->
+<div class="section">
+  <div class="title">🌟 Why Artists Choose Harmora</div>
+
+  <div class="grid">
+
+    <div class="card">
+      <h3>Direct Sales</h3>
+      <p>Sell music, beats, merch, and experiences directly to fans.</p>
+    </div>
+
+    <div class="card">
+      <h3>Instant Payouts</h3>
+      <p>Stripe Connect automatically splits payments. Your cut is taken instantly.</p>
+    </div>
+
+    <div class="card">
+      <h3>Bundled Drops</h3>
+      <p>Music + merch + tickets in one drop experience.</p>
+    </div>
+
+    <div class="card">
+      <h3>Fan Engagement</h3>
+      <p>Subscriptions, exclusives, and community access tools.</p>
+    </div>
+
+  </div>
+</div>
 
 <!-- CTA -->
-<section class="cta">
-  <h2>🚀 Become a Harmora Artist</h2>
-  <p>Upload your music, earn instantly, and build your fanbase globally.</p>
-  <button>Join as Artist</button>
-</section>
+<div class="cta">
+  <h2>Become a Harmora Artist</h2>
+  <p>Drop your sound. Build your fanbase. Earn instantly.</p>
+</div>
 
 <footer>
-  <p>© 2026 Harmora. Built for creators.</p>
+  © 2026 Harmora — Built for the nightlife of music
 </footer>
 
 <script src="app.js"></script>
