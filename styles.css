@@ -1,0 +1,124 @@
+:root {
+  --bg-main: #0b0b10;
+  --bg-surface: #12121a;
+  --accent-primary: #7c5cff;
+  --accent-secondary: #2ed3ff;
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0b2;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-main);
+  color: var(--text-primary);
+  display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background: var(--bg-surface);
+  padding: 20px;
+  border-right: 1px solid var(--border-subtle);
+  position: fixed;
+  height: 100vh;
+}
+
+.logo {
+  margin-bottom: 20px;
+}
+
+.sidebar button {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent-primary);
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Main */
+.main {
+  margin-left: 220px;
+  padding: 30px;
+  width: 100%;
+}
+
+.hero {
+  margin-bottom: 30px;
+}
+
+.section.hidden {
+  display: none;
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* Cards */
+.card {
+  background: var(--bg-surface);
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid var(--border-subtle);
+}
+
+/* Buttons */
+.btn-primary {
+  background: var(--accent-primary);
+  color: white;
+  border: none;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Inputs */
+input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle);
+  background: #0f0f16;
+  color: white;
+}
+
+/* Player */
+#player {
+  position: fixed;
+  bottom: 0;
+  left: 220px;
+  right: 0;
+  height: 60px;
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
