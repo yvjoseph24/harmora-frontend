@@ -1,0 +1,23 @@
+async function loadArtists(){
+  const { data } = await supabase.from("artists").select("*");
+
+  artists.innerHTML = data.map(a=>`
+    <div class="card">
+      <h4>${a.artist_name}</h4>
+      <p>${a.bio}</p>
+    </div>
+  `).join("");
+}
+
+async function createArtist(){
+  const user = await getUser();
+  if(!user) return alert("Login required");
+
+  await supabase.from("artists").insert({
+    user_id:user.id,
+    artist_name:artistName.value,
+    bio:artistBio.value
+  });
+
+  loadArtists();
+}
