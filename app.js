@@ -1,10 +1,10 @@
 console.log("APP LOADED");
 
 // ---------------------------
-// 🔐 SUPABASE INIT (SAFE)
+// 🔐 SUPABASE INIT (ONLY ONCE)
 // ---------------------------
 if (!window.supabase) {
-  console.error("Supabase library not loaded. Check index.html script order.");
+  console.error("Supabase not loaded. Check script order in HTML.");
 }
 
 const supabaseUrl = "YOUR_SUPABASE_URL";
@@ -46,12 +46,7 @@ async function login() {
 async function uploadSong() {
   const title = document.getElementById("songTitle").value;
   const price = document.getElementById("songPrice").value;
-  const fileInput = document.getElementById("songFile");
-
-  const file = fileInput?.files?.[0];
-
-  console.log("UPLOAD STARTED");
-  console.log("FILE:", file);
+  const file = document.getElementById("songFile").files[0];
 
   if (!file) {
     alert("No file selected");
@@ -60,11 +55,10 @@ async function uploadSong() {
 
   const fileName = `${Date.now()}-${file.name}`;
 
-  // Check user
-  const { data: userData, error: userError } = await supabase.auth.getUser();
+  const { data: userData } = await supabase.auth.getUser();
 
-  if (userError || !userData?.user) {
-    alert("You are not logged in");
+  if (!userData.user) {
+    alert("You must be logged in");
     return;
   }
 
@@ -74,17 +68,17 @@ async function uploadSong() {
     .upload(fileName, file);
 
   if (uploadError) {
-    console.error("UPLOAD ERROR:", uploadError);
+    console.error(uploadError);
     alert(uploadError.message);
     return;
   }
 
-  // Public URL
+  // Get public URL
   const { data: urlData } = supabase.storage
     .from("music")
     .getPublicUrl(fileName);
 
-  // Save to DB
+  // Save to database
   const { error: dbError } = await supabase.from("songs").insert({
     title,
     price,
@@ -93,47 +87,53 @@ async function uploadSong() {
   });
 
   if (dbError) {
-    console.error("DB ERROR:", dbError);
+    console.error(dbError);
     alert(dbError.message);
     return;
   }
 
-  alert("UPLOAD SUCCESS");
+  alert("Upload successful");
 
   loadSongs();
 }
 
 // ---------------------------
-// 🎧 LOAD FEED
+// 🎧 LOAD SONG FEED
 // ---------------------------
 async function loadSongs() {
+  const container = document.getElementById("songFeed");
+
+  if (!container) return;
+
   const { data, error } = await supabase
     .from("songs")
     .select("*")
     .order("id", { ascending: false });
 
   if (error) {
-    console.error("LOAD ERROR:", error);
+    console.error(error);
+    container.innerHTML = "<p>Error loading songs</p>";
     return;
   }
 
-  const feed = document.getElementById("songFeed");
-  if (!feed) return;
+  if (!data || data.length === 0) {
+    container.innerHTML = "<p>No songs yet</p>";
+    return;
+  }
 
-  feed.innerHTML = "";
-
-  data.forEach((song) => {
-    feed.innerHTML += `
-      <div class="card">
-        <h3>${song.title}</h3>
-        <p>$${song.price}</p>
-
-        <button onclick="playSong('${song.audio_url}', '${song.title}')">
-          ▶ Play
-        </button>
-      </div>
-    `;
-  });
+  container.innerHTML = data
+    .map(
+      (song) => `
+    <div class="card">
+      <h4>${song.title}</h4>
+      <p>$${song.price}</p>
+      <button onclick="playSong('${song.audio_url}', '${song.title}')">
+        ▶ Play
+      </button>
+    </div>
+  `
+    )
+    .join("");
 }
 
 // ---------------------------
