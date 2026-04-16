@@ -156,3 +156,11 @@ input {
   justify-content: space-between;
   margin-top: 10px;
 }
+
+.motivation {
+  margin-top: 40px;
+  padding: 25px;
+  border-radius: 16px;
+  background: rgba(124, 92, 255, 0.08);
+  border: 1px solid rgba(124, 92, 255, 0.2);
+}
