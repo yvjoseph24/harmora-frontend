@@ -6,119 +6,158 @@
 <title>Harmora</title>
 
 <style>
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: radial-gradient(circle at top, #1a0033, #000);
-    color: white;
-  }
+/* ===== GLOBAL ===== */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: radial-gradient(circle at top, #0a0015, #000);
+  color: white;
+  overflow-x: hidden;
+}
 
-  /* NAV */
-  .nav {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px 30px;
-    background: rgba(0,0,0,0.6);
-    backdrop-filter: blur(10px);
-  }
+/* ===== NAV ===== */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 25px;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
 
-  .logo {
-    font-size: 20px;
-    font-weight: bold;
-    color: #00f5ff;
-  }
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #00f5ff;
+}
 
-  .nav a {
-    color: #ccc;
-    margin-left: 15px;
-    text-decoration: none;
-  }
+.nav a {
+  margin-left: 15px;
+  color: #aaa;
+  text-decoration: none;
+  cursor: pointer;
+}
 
-  /* HERO */
-  .hero {
-    text-align: center;
-    padding: 80px 20px;
-  }
+.nav a:hover {
+  color: #00f5ff;
+}
 
-  .hero h1 {
-    font-size: 42px;
-    color: #ffffff;
-  }
+/* ===== HERO ===== */
+.hero {
+  text-align: center;
+  padding: 90px 20px;
+}
 
-  .hero span {
-    color: #00f5ff;
-  }
+.hero h1 {
+  font-size: 52px;
+}
 
-  .hero p {
-    max-width: 600px;
-    margin: auto;
-    color: #bbb;
-  }
+.hero span {
+  color: #00f5ff;
+}
 
-  /* SECTION */
-  .section {
-    padding: 40px 20px;
-  }
+.hero p {
+  max-width: 650px;
+  margin: auto;
+  color: #aaa;
+}
 
-  .title {
-    font-size: 22px;
-    margin-bottom: 20px;
-    color: #00f5ff;
-  }
+/* ===== SECTIONS ===== */
+section {
+  scroll-margin-top: 80px;
+}
 
-  /* GRID */
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 15px;
-  }
+.section {
+  padding: 60px 20px;
+}
 
-  .card {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(0,245,255,0.2);
-    padding: 15px;
-    border-radius: 12px;
-    transition: 0.3s;
-  }
+.title {
+  font-size: 22px;
+  color: #00f5ff;
+  margin-bottom: 20px;
+}
 
-  .card:hover {
-    transform: scale(1.03);
-    border-color: #00f5ff;
-  }
+/* ===== GRID ===== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 15px;
+  max-width: 1100px;
+  margin: auto;
+}
 
-  .price {
-    color: #00f5ff;
-    font-weight: bold;
-  }
+.card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(0,245,255,0.2);
+  padding: 15px;
+  border-radius: 12px;
+  transition: 0.3s;
+}
 
-  button {
-    margin-top: 10px;
-    padding: 10px;
-    width: 100%;
-    background: linear-gradient(90deg, #00f5ff, #b400ff);
-    border: none;
-    color: black;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-  }
+.card:hover {
+  transform: scale(1.03);
+  border-color: #00f5ff;
+}
 
-  /* CTA */
-  .cta {
-    text-align: center;
-    padding: 60px 20px;
-    background: linear-gradient(90deg, #0d001f, #000);
-  }
+/* ===== BUTTONS ===== */
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #00f5ff, #b400ff);
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-  .cta h2 {
-    color: #00f5ff;
-  }
+/* ===== CTA ===== */
+.cta {
+  text-align: center;
+  padding: 60px 20px;
+  background: rgba(0,0,0,0.5);
+}
 
-  footer {
-    text-align: center;
-    padding: 20px;
-    color: #555;
-  }
+/* ===== LOGIN BOX ===== */
+.loginBox {
+  max-width: 400px;
+  margin: auto;
+  background: rgba(255,255,255,0.05);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,245,255,0.2);
+}
+
+/* ===== PLAYER ===== */
+#playerBar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(10, 0, 25, 0.95);
+  border-top: 1px solid rgba(0,245,255,0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  backdrop-filter: blur(10px);
+  color: white;
+  z-index: 100;
+}
+
+#trackName {
+  flex: 1;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #444;
+}
 </style>
 </head>
 
@@ -128,78 +167,93 @@
 <div class="nav">
   <div class="logo">🎧 Harmora</div>
   <div>
-    <a href="#">Explore</a>
-    <a href="#">Artists</a>
-    <a href="#">Login</a>
+    <a href="#explore">Explore</a>
+    <a href="#artists">Artists</a>
+    <a href="#login">Login</a>
   </div>
 </div>
 
 <!-- HERO -->
 <div class="hero">
-  <h1>Feel the <span>Night Sound</span></h1>
+  <h1>Music Meets the <span>Nightlife</span></h1>
   <p>
-    A music marketplace where artists drop beats, albums, and experiences in a nightlife-inspired space.
+    A creator marketplace where artists sell music, beats, and experiences with instant payouts and full control.
   </p>
 </div>
 
-<!-- MUSIC -->
-<div class="section">
-  <div class="title">🔥 Trending Drops</div>
+<!-- EXPLORE -->
+<section id="explore" class="section">
+  <div class="title">🔥 Explore Drops</div>
 
   <div class="grid">
 
     <div class="card">
-      <h3>Midnight Drive</h3>
-      <p>Dark R&B / Trap fusion</p>
-      <p class="price">$10</p>
-      <button onclick="buy('Midnight Drive', 10)">Buy Now</button>
+      <h3>Neon Dreams</h3>
+      <p>Night Trap Beat</p>
+
+      <button onclick="playTrack('Neon Dreams', 'audio/neon.mp3')">▶ Preview</button>
+      <button onclick="buy('Neon Dreams', 10)">Buy $10</button>
     </div>
 
     <div class="card">
-      <h3>Neon Nights</h3>
-      <p>Club / EDM vibe pack</p>
-      <p class="price">$15</p>
-      <button onclick="buy('Neon Nights', 15)">Buy Now</button>
+      <h3>Midnight Waves</h3>
+      <p>Lo-fi Summer Mix</p>
+
+      <button onclick="playTrack('Midnight Waves', 'audio/waves.mp3')">▶ Preview</button>
+      <button onclick="buy('Midnight Waves', 12)">Buy $12</button>
     </div>
 
     <div class="card">
-      <h3>After Hours Kit</h3>
-      <p>Late night sample pack</p>
-      <p class="price">$20</p>
-      <button onclick="buy('After Hours Kit', 20)">Buy Now</button>
+      <h3>After Hours</h3>
+      <p>Club Sample Pack</p>
+
+      <button onclick="playTrack('After Hours', 'audio/after.mp3')">▶ Preview</button>
+      <button onclick="buy('After Hours', 15)">Buy $15</button>
     </div>
 
   </div>
-</div>
+</section>
 
-<!-- ARTIST VALUE -->
-<div class="section">
-  <div class="title">🌟 Why Artists Choose Harmora</div>
+<!-- ARTISTS -->
+<section id="artists" class="section">
+  <div class="title">🌟 Artist Power System</div>
 
   <div class="grid">
 
     <div class="card">
       <h3>Direct Sales</h3>
-      <p>Sell music, beats, merch, and experiences directly to fans.</p>
+      <p>Sell music, merch, and exclusives.</p>
     </div>
 
     <div class="card">
-      <h3>Instant Payouts</h3>
-      <p>Stripe Connect automatically splits payments. Your cut is taken instantly.</p>
+      <h3>Instant Revenue Splits</h3>
+      <p>Your cut is automatically taken via Stripe Connect.</p>
     </div>
 
     <div class="card">
-      <h3>Bundled Drops</h3>
-      <p>Music + merch + tickets in one drop experience.</p>
+      <h3>Bundles</h3>
+      <p>Music + merch + tickets in one drop.</p>
     </div>
 
     <div class="card">
-      <h3>Fan Engagement</h3>
-      <p>Subscriptions, exclusives, and community access tools.</p>
+      <h3>Fan System</h3>
+      <p>Subscriptions, exclusives, and messaging tools.</p>
     </div>
 
   </div>
-</div>
+</section>
+
+<!-- LOGIN -->
+<section id="login" class="section">
+  <div class="title">🔐 Login</div>
+
+  <div class="loginBox">
+    <p>Backend login coming with Supabase Auth.</p>
+    <input placeholder="Email" style="width:100%;padding:10px;margin:5px 0;">
+    <input placeholder="Password" type="password" style="width:100%;padding:10px;margin:5px 0;">
+    <button disabled>Login (Coming Soon)</button>
+  </div>
+</section>
 
 <!-- CTA -->
 <div class="cta">
@@ -207,10 +261,16 @@
   <p>Drop your sound. Build your fanbase. Earn instantly.</p>
 </div>
 
-<footer>
-  © 2026 Harmora — Built for the nightlife of music
-</footer>
+<footer>© 2026 Harmora</footer>
+
+<!-- PLAYER BAR -->
+<div id="playerBar">
+  <div id="trackName">No track selected</div>
+  <button onclick="togglePlay()">▶ Play</button>
+  <audio id="audioPlayer"></audio>
+</div>
 
 <script src="app.js"></script>
+
 </body>
 </html>
