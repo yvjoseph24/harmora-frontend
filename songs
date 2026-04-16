@@ -1,0 +1,11 @@
+async function loadSongs(){
+  const { data } = await supabase.from("songs").select("*");
+
+  songs.innerHTML = data.map(s=>`
+    <div class="card">
+      <h4>${s.title}</h4>
+      <p>$${s.price}</p>
+      <button onclick="playSong('${s.audio_url}','${s.title}')">Play</button>
+    </div>
+  `).join("");
+}
