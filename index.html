@@ -3,297 +3,66 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Harmora Elite</title>
+<title>Harmora</title>
+
+<link rel="stylesheet" href="styles.css">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-
-body {
-  margin:0;
-  font-family: Inter;
-  background:
-    radial-gradient(circle at 20% 0%, rgba(140,0,255,0.25), transparent 40%),
-    radial-gradient(circle at 80% 0%, rgba(0,245,255,0.18), transparent 40%),
-    #05010a;
-  color:white;
-}
-
-.layout { display:flex; }
-
-/* SIDEBAR */
-.sidebar {
-  width:220px;
-  min-height:100vh;
-  padding:14px;
-  background:rgba(255,255,255,0.03);
-  backdrop-filter: blur(16px);
-  border-right:1px solid rgba(255,255,255,0.06);
-}
-
-.sidebar h2 {
-  font-size:14px;
-  color:#caa8ff;
-}
-
-.sidebar button {
-  width:100%;
-  margin-top:6px;
-  padding:8px;
-  border:none;
-  border-radius:10px;
-  background:linear-gradient(135deg,#00f5ff,#b400ff);
-  font-weight:600;
-  cursor:pointer;
-}
-
-/* MAIN */
-.main {
-  flex:1;
-  padding:18px;
-}
-
-/* HERO */
-.hero {
-  padding:14px;
-  border-radius:16px;
-  background:linear-gradient(135deg, rgba(0,245,255,0.08), rgba(180,0,255,0.08));
-  border:1px solid rgba(255,255,255,0.06);
-  margin-bottom:14px;
-}
-
-.hero h1 {
-  font-size:18px;
-  margin:0;
-}
-
-.hero p {
-  font-size:12px;
-  opacity:0.8;
-}
-
-/* SECTIONS */
-h3 {
-  font-size:13px;
-  margin:10px 0;
-  color:#e7d6ff;
-}
-
-/* CARDS */
-.card {
-  background:rgba(255,255,255,0.04);
-  border:1px solid rgba(255,255,255,0.06);
-  padding:10px;
-  border-radius:14px;
-  margin:8px 0;
-  transition:0.2s;
-}
-
-.card:hover {
-  transform:translateY(-2px);
-  border-color:rgba(0,245,255,0.3);
-}
-
-/* INPUTS */
-input {
-  width:100%;
-  padding:8px;
-  margin:4px 0;
-  border-radius:10px;
-  border:1px solid rgba(255,255,255,0.08);
-  background:rgba(0,0,0,0.4);
-  color:white;
-  font-size:12px;
-}
-
-/* BUTTONS */
-button {
-  width:100%;
-  padding:8px;
-  margin-top:6px;
-  border-radius:10px;
-  border:none;
-  font-weight:600;
-  cursor:pointer;
-  background:linear-gradient(135deg,#00f5ff,#b400ff);
-  color:black;
-}
-
-/* GRID */
-.grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-  gap:10px;
-}
-
-/* PLAYER */
-#player {
-  position:fixed;
-  bottom:0;
-  left:220px;
-  right:0;
-  height:48px;
-  background:rgba(0,0,0,0.9);
-  backdrop-filter:blur(14px);
-  display:flex;
-  align-items:center;
-  padding:0 10px;
-  border-top:1px solid rgba(255,255,255,0.06);
-}
-
-#trackName {
-  flex:1;
-  font-size:12px;
-  color:#00f5ff;
-}
-</style>
 </head>
 
 <body>
 
 <div class="layout">
 
-<!-- SIDEBAR -->
 <div class="sidebar">
-<h2>🎧 Harmora Elite</h2>
-
-<button onclick="loadSongs()">🔥 Explore</button>
-<button onclick="loadArtists()">🎤 Artists</button>
-<button onclick="addToQueue()">➕ Queue Mode</button>
+<h3>🎧 Harmora</h3>
+<button onclick="loadSongs()">Explore</button>
+<button onclick="loadArtists()">Artists</button>
+<button onclick="toggleQueue()">Queue</button>
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
-<!-- HERO -->
 <div class="hero">
-<h1>🌌 Welcome to Harmora</h1>
-<p>Nightlife music marketplace. Artists build. Fans discover. Music earns.</p>
+<h1>🌌 Harmora Music</h1>
+<p>Where artists earn. Fans discover. Music lives at night.</p>
 </div>
 
-<!-- ARTIST -->
-<h3>🎤 Create Artist</h3>
+<h3>Create Artist</h3>
 <input id="artistName" placeholder="Artist Name">
 <input id="artistBio" placeholder="Bio">
 <button onclick="createArtist()">Create</button>
 
-<!-- UPLOAD -->
-<h3>🎧 Upload Music</h3>
+<h3>Upload Song</h3>
 <input id="songTitle" placeholder="Title">
 <input id="songPrice" placeholder="Price">
 <input id="songFile" type="file">
 <button onclick="uploadSong()">Upload</button>
 
-<!-- FEATURED -->
-<h3>🔥 Marketplace</h3>
-<div id="songs" class="grid"></div>
+<h3>Marketplace</h3>
+<div id="songs"></div>
 
-<!-- ARTISTS -->
-<h3>🌟 Artists</h3>
-<div id="artists" class="grid"></div>
+<h3>Artists</h3>
+<div id="artists"></div>
 
 </div>
+
 </div>
 
-<!-- PLAYER -->
 <div id="player">
-<div id="trackName">No track playing</div>
-<button onclick="toggle()">▶</button>
+<div id="trackName">No track</div>
+<button onclick="togglePlay()">▶</button>
 <audio id="audio"></audio>
 </div>
 
-<script>
-const supabase = window.supabase.createClient(
-  "YOUR_SUPABASE_URL",
-  "YOUR_SUPABASE_ANON_KEY"
-);
-
-// USER SAFE
-async function user(){
-  const { data:{ user } } = await supabase.auth.getUser();
-  return user;
-}
-
-// ARTIST
-async function createArtist(){
-  const u = await user();
-  if(!u) return alert("login required");
-
-  await supabase.from("artists").insert({
-    user_id:u.id,
-    artist_name:artistName.value,
-    bio:artistBio.value
-  });
-
-  loadArtists();
-}
-
-// UPLOAD
-async function uploadSong(){
-  const u = await user();
-  if(!u) return alert("login required");
-
-  const fileName = Date.now()+songFile.files[0].name;
-
-  await supabase.storage.from("music").upload(fileName, songFile.files[0]);
-
-  const { data } = supabase.storage.from("music").getPublicUrl(fileName);
-
-  await supabase.from("songs").insert({
-    artist_id:u.id,
-    title:songTitle.value,
-    price:Number(songPrice.value),
-    audio_url:data.publicUrl
-  });
-
-  loadSongs();
-}
-
-// SONGS
-async function loadSongs(){
-  const { data } = await supabase.from("songs").select("*");
-
-  songs.innerHTML = data.map(s=>`
-    <div class="card">
-      <h4>${s.title}</h4>
-      <p>$${s.price}</p>
-      <button onclick="play('${s.audio_url}','${s.title}')">Play</button>
-    </div>
-  `).join("");
-}
-
-// ARTISTS
-async function loadArtists(){
-  const { data } = await supabase.from("artists").select("*");
-
-  artists.innerHTML = data.map(a=>`
-    <div class="card">
-      <h4>${a.artist_name}</h4>
-      <p>${a.bio}</p>
-    </div>
-  `).join("");
-}
-
-// PLAYER
-function play(url,name){
-  audio.src=url;
-  audio.play();
-  trackName.innerText=name;
-}
-
-function toggle(){
-  audio.paused ? audio.play() : audio.pause();
-}
-
-// QUEUE PLACEHOLDER (future upgrade)
-function addToQueue(){
-  alert("Queue system ready for upgrade");
-}
-
-loadSongs();
-loadArtists();
-</script>
+<!-- JS LOADING ORDER MATTERS -->
+<script src="js/supabase.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/songs.js"></script>
+<script src="js/artists.js"></script>
+<script src="js/upload.js"></script>
+<script src="js/player.js"></script>
+<script src="js/payments.js"></script>
 
 </body>
 </html>
