@@ -2,19 +2,27 @@
 <html>
 <head>
   <title>Harmora</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
 
 <body>
 
-  <h1>Harmora Test</h1>
+  <h1>Harmora</h1>
 
-  <button id="testBtn">Test Button</button>
+  <button id="testBtn">Test Supabase Init</button>
 
   <script>
-    console.log("APP IS NOW FULLY RESET");
+    console.log("STEP 1 LOADED");
+
+    const supabase = window.supabase.createClient(
+      "YOUR_SUPABASE_URL",
+      "YOUR_SUPABASE_ANON_KEY"
+    );
 
     document.getElementById("testBtn").onclick = () => {
-      console.log("BUTTON WORKS");
+      console.log("SUPABASE OBJECT:", supabase);
+      alert("Supabase initialized");
     };
   </script>
 
