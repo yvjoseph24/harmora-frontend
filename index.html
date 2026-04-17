@@ -3,68 +3,168 @@
 <head>
   <title>Harmora</title>
 
+  <!-- Supabase CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+  <style>
+    body {
+      font-family: Arial;
+      background: #0b0b10;
+      color: white;
+      padding: 20px;
+    }
+
+    input, button {
+      display: block;
+      margin: 10px 0;
+      padding: 10px;
+      width: 250px;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .card {
+      padding: 10px;
+      border: 1px solid #333;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 
 <body>
 
-  <h1>Harmora</h1>
+<h1>Harmora</h1>
 
-  <h2>Auth Test</h2>
+<!-- AUTH -->
+<h2>Auth</h2>
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
 
-  <input id="email" placeholder="Email">
-  <input id="password" type="password" placeholder="Password">
+<button onclick="signup()">Sign Up</button>
+<button onclick="login()">Login</button>
 
-  <button id="signupBtn">Sign Up</button>
-  <button id="loginBtn">Login</button>
+<hr>
 
-  <script>
-    console.log("STEP 2 LOADED");
+<!-- UPLOAD -->
+<h2>Upload Song</h2>
+<input id="title" placeholder="Song Title">
+<input id="price" placeholder="Price">
+<input id="file" type="file">
 
-    const supabase = window.supabase.createClient(
-      "YOUR_SUPABASE_URL",
-      "YOUR_SUPABASE_ANON_KEY"
-    );
+<button onclick="uploadSong()">Upload</button>
 
-    document.getElementById("signupBtn").onclick = async () => {
-      console.log("SIGNUP CLICKED");
+<hr>
 
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+<!-- FEED -->
+<h2>Feed</h2>
+<div id="feed"></div>
 
-      const { error } = await supabase.auth.signUp({
-        email,
-        password
-      });
+<script>
+console.log("Harmora Loaded");
 
-      if (error) {
-        console.log(error.message);
-        alert(error.message);
-      } else {
-        alert("Signup success");
-      }
-    };
+// 🔥 INIT SUPABASE (ONLY ONCE EVER)
+const supabase = window.supabase.createClient(
+  "YOUR_SUPABASE_URL",
+  "YOUR_SUPABASE_ANON_KEY"
+);
 
-    document.getElementById("loginBtn").onclick = async () => {
-      console.log("LOGIN CLICKED");
+// ---------------- AUTH ----------------
+async function signup() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+  const { error } = await supabase.auth.signUp({ email, password });
 
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password
-      });
+  if (error) return alert(error.message);
+  alert("Signup success");
+}
 
-      if (error) {
-        console.log(error.message);
-        alert(error.message);
-      } else {
-        alert("Login success");
-      }
-    };
+async function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-  </script>
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) return alert(error.message);
+  alert("Login success");
+}
+
+// ---------------- UPLOAD ----------------
+async function uploadSong() {
+  const title = document.getElementById("title").value;
+  const price = document.getElementById("price").value;
+  const file = document.getElementById("file").files[0];
+
+  if (!file) return alert("Select a file");
+
+  const user = await supabase.auth.getUser();
+
+  if (!user.data.user) {
+    return alert("You must be logged in");
+  }
+
+  const fileName = Date.now() + "-" + file.name;
+
+  // upload file
+  const { error: uploadError } = await supabase
+    .storage
+    .from("music")
+    .upload(fileName, file);
+
+  if (uploadError) return alert(uploadError.message);
+
+  const url = supabase.storage
+    .from("music")
+    .getPublicUrl(fileName).data.publicUrl;
+
+  // save to DB
+  const { error: dbError } = await supabase
+    .from("songs")
+    .insert({
+      title,
+      price,
+      audio_url: url,
+      user_id: user.data.user.id
+    });
+
+  if (dbError) return alert(dbError.message);
+
+  alert("Upload success");
+  loadSongs();
+}
+
+// ---------------- LOAD FEED ----------------
+async function loadSongs() {
+  const { data, error } = await supabase
+    .from("songs")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  const feed = document.getElementById("feed");
+
+  if (error) {
+    feed.innerHTML = "Error loading songs";
+    return;
+  }
+
+  feed.innerHTML = data.map(song => `
+    <div class="card">
+      <h3>${song.title}</h3>
+      <p>$${song.price}</p>
+      <audio controls src="${song.audio_url}"></audio>
+    </div>
+  `).join("");
+}
+
+// auto load feed
+loadSongs();
+
+</script>
 
 </body>
 </html>
