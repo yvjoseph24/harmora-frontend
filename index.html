@@ -64,10 +64,10 @@
 <script>
 console.log("Harmora Loaded");
 
-// 🔥 INIT SUPABASE (ONLY ONCE EVER)
+// 🔥 SUPABASE INIT (UPDATED)
 const supabase = window.supabase.createClient(
-  "YOUR_SUPABASE_URL",
-  "YOUR_SUPABASE_ANON_KEY"
+  "https://hrrafjnuyhjqfijhbbcb.supabase.co",
+  "sb_publishable_e0POSyrZKSj3scPmW8Tskw_EzN9LIaC"
 );
 
 // ---------------- AUTH ----------------
@@ -110,7 +110,6 @@ async function uploadSong() {
 
   const fileName = Date.now() + "-" + file.name;
 
-  // upload file
   const { error: uploadError } = await supabase
     .storage
     .from("music")
@@ -122,7 +121,6 @@ async function uploadSong() {
     .from("music")
     .getPublicUrl(fileName).data.publicUrl;
 
-  // save to DB
   const { error: dbError } = await supabase
     .from("songs")
     .insert({
@@ -161,7 +159,6 @@ async function loadSongs() {
   `).join("");
 }
 
-// auto load feed
 loadSongs();
 
 </script>
